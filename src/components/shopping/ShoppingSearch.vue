@@ -14,9 +14,10 @@
             商品
             <van-icon name="arrow-down" />
           </van-button>
-          <input type="text" placeholder="请输入关键字" />
+          <!-- 添加搜索事件 -->
+          <input type="text" placeholder="请输入关键字" v-model="searchText" />
         </div>
-        <div class="loaction-btn">搜索</div>
+        <div class="loaction-btn" @click="getSearchResult">搜索</div>
       </div>
     </div>
     <!-- 中间的热搜素和历史记录 -->
@@ -47,6 +48,7 @@
     <div class="clear-btn">
       <van-button
         icon="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/delete%402x.png"
+        @click="clearSearch"
       >
         清除搜索历史
       </van-button>
@@ -57,6 +59,7 @@
 export default {
   data() {
     return {
+      searchText: "",
       hotSearch: [
         "床头柜",
         "简洁双开门衣柜",
@@ -71,6 +74,25 @@ export default {
   methods: {
     toHome() {
       this.$router.push("/home");
+    },
+    // 点击搜索的功能方法
+    getSearchResult() {
+      if (this.searchText !== "") {
+        this.$toast.loading({
+          message: "加载搜索内容...",
+          forbidClick: true,
+          loadingType: "spinner",
+        });
+        this.searchHistory.splice(0, 0, this.searchText);
+      } else {
+        this.$toast.loading({
+          message: "搜索内容不能为空",
+        });
+      }
+    },
+    // 点击清除历史功能
+    clearSearch() {
+      this.searchHistory = null;
     },
   },
 };
@@ -94,6 +116,7 @@ p {
   .search-input {
     display: flex;
     border: 1px solid silver;
+    // 输入框的样式设置
     input {
       border: 1px solid transparent;
       font-size: 0.3rem;

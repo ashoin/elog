@@ -5,6 +5,7 @@
       <div class="nav-bar">
         <!-- 左侧 -->
         <div class="left">
+          <!-- 去设置地址 -->
           <div slot="left-icon" @click="toLocation($event)">
             {{ nowLocation }}
           </div>
@@ -93,13 +94,14 @@ export default {
     }
   },
   methods: {
+    // 去设置地址的方法
     toLocation(e) {
       this.$router.push({
         name: "Location",
         query: { address: this.nowLocation },
       });
     },
-
+    // 去搜索商品的方法
     toSearch() {
       this.$router.push("/home/search");
     },

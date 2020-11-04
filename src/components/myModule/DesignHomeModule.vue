@@ -1,6 +1,6 @@
 <template>
   <div class="design-home-main">
-    <div class="design-bg" :style="designInfo.url">
+    <div class="design-bg" :style="designInfo.url" @click="toShoppingDetail">
       <span>{{ designInfo.text }}</span>
     </div>
     <div class="design-image-list">
@@ -22,6 +22,13 @@
 <script>
 export default {
   props: ["designInfo"],
+  methods: {
+    toShoppingDetail() {
+      this.$router.push({
+        name: "ShoppingDetail",
+      });
+    },
+  },
 };
 </script>
 <style scoped lang='scss'>

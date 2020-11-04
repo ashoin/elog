@@ -6,7 +6,8 @@ const store = new Vuex.Store({
 
     state: {
         // 存储token
-        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
+        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
+        goods: 'hello'
     },
 
     mutations: {
@@ -14,6 +15,10 @@ const store = new Vuex.Store({
         changeLogin(state, user) {
             state.Authorization = user.Authorization;
             localStorage.setItem('Authorization', user.Authorization);
+        },
+        changeText(state, text) {
+            state.goods = text;
+            Vue.set(state, 'save', text)
         }
     },
 

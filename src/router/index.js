@@ -161,7 +161,7 @@ const routes = [{
 }]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })
@@ -172,7 +172,7 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     let token = localStorage.getItem('Authorization');
-    console.log("这是token")
+    // console.log(token)
     if (token === null || token === '') {
       alert("登录已经过期，请重新登录")
       next({

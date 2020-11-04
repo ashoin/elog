@@ -13,8 +13,9 @@
           border
           type="number"
           size="large"
-          autosize=""
+          maxlength="11"
           placeholder="请输入手机号码"
+          @blur="checkPhone"
         />
         <van-field
           class="input"
@@ -68,6 +69,13 @@ export default {
       password: "",
       sms: "",
     };
+  },
+  methods: {
+    checkPhone() {
+      if (!/^1[34578]\d{9}$/.test(this.mobile) && this.mobile != "") {
+        this.$notify("手机号码格式不正确");
+      }
+    },
   },
 };
 </script>

@@ -3,30 +3,31 @@
     <!-- 主体部分 -->
     <div class="login-main">
       <!-- 登录相关的信息 -->
-      <van-cell-group>
-        <van-field
-          class="input"
-          v-model="user.mobile"
-          left-icon="phone-o"
-          center
-          clearable
-          border
-          type="number"
-          size="large"
-          autosize=""
-          placeholder="请输入手机号码"
-        />
-        <van-field
-          class="input"
-          v-model="user.password"
-          center
-          clearable
-          type="password"
-          left-icon="closed-eye"
-          placeholder="请输入密码"
-        >
-        </van-field>
-      </van-cell-group>
+
+      <van-field
+        class="input"
+        v-model="user.mobile"
+        left-icon="phone-o"
+        center
+        clearable
+        border
+        type="number"
+        size="large"
+        placeholder="请输入手机号码"
+        maxlength="11"
+        @blur="checkPhone"
+      />
+      <van-field
+        class="input"
+        v-model="user.password"
+        center
+        clearable
+        type="password"
+        left-icon="closed-eye"
+        placeholder="请输入密码"
+      >
+      </van-field>
+
       <!-- 登录按键 -->
       <van-button
         color="#D41C1C"
@@ -75,7 +76,7 @@ export default {
     return {
       user: {
         password: "",
-        mobile: "",
+        mobile: null,
       },
       loginInfo: null,
     };
@@ -86,7 +87,7 @@ export default {
       this.$router.push("/forgetpassword");
     },
     toHome() {
-      this.$router.push("/home");
+      this.$router.replace("/home");
     },
     submitLogin() {
       loginApi.submitLogin(this.user).then((response) => {
@@ -107,10 +108,18 @@ export default {
               domain: "localhost",
             });
             //跳转页面
-            window.location.href = "/home";
+            this.$router.push({
+              name: "Home",
+            });
           });
         }
       });
+    },
+    checkPhone() {
+      console.log(this.user.mobile);
+      if (!/^1[34578]\d{9}$/.test(this.user.mobile) && this.mobile != "") {
+        this.$notify("手机号码格式不正确");
+      }
     },
   },
 };

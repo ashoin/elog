@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item-container">
     <van-checkbox-group v-model="result" ref="checkboxGroup">
-      <van-checkbox class="goods-item-title" @click="checkAll">
+      <van-checkbox class="goods-item-title" name="title" @change="checkAll">
         家具 Design
       </van-checkbox>
       <van-checkbox name="id">
@@ -45,15 +45,10 @@ export default {
     return {
       result: [],
       isSelect: "false",
+      checked: false,
     };
   },
   methods: {
-    checkAll() {
-      this.$refs.checkboxGroup.toggleAll(true);
-    },
-    toggleAll() {
-      this.$refs.checkboxGroup.toggleAll();
-    },
     toMessage() {
       this.$router.push({
         name: "CartMessage",
@@ -61,6 +56,10 @@ export default {
           message: this.message,
         },
       });
+    },
+    checkAll() {
+      console.log(this.result);
+      this.$refs.checkboxGroup.toggleAll(true);
     },
   },
 };
