@@ -161,19 +161,23 @@ const routes = [{
 }]
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
+// 导航守卫
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
+  if (to.path === '/' || to.path === '/login') {
     next();
   } else {
     let token = localStorage.getItem('Authorization');
-
-    if (token === 'null' || token === '') {
-      next('/login');
+    console.log("这是token")
+    if (token === null || token === '') {
+      alert("登录已经过期，请重新登录")
+      next({
+        path: '/login'
+      });
     } else {
       next();
     }

@@ -6,7 +6,7 @@
       <van-cell-group>
         <van-field
           class="input"
-          v-model="loginForm.mobile"
+          v-model="user.mobile"
           left-icon="phone-o"
           center
           clearable
@@ -18,7 +18,7 @@
         />
         <van-field
           class="input"
-          v-model="loginForm.password"
+          v-model="user.password"
           center
           clearable
           type="password"
@@ -32,7 +32,7 @@
         color="#D41C1C"
         size="large"
         style="width: 70%"
-        @click="handleLogin"
+        @click="submitLogin"
       >
         登录
       </van-button>
@@ -67,48 +67,50 @@
   </div>
 </template>
 <script>
+import cookie from "js-cookie";
+import loginApi from "../../../api/login";
 import { mapMutations } from "vuex";
 export default {
   data() {
     return {
-      loginForm: {
+      user: {
         password: "",
         mobile: "",
       },
+      loginInfo: null,
     };
   },
   methods: {
+    ...mapMutations(["changeLogin"]),
     toForgetPassword() {
       this.$router.push("/forgetpassword");
     },
     toHome() {
       this.$router.push("/home");
     },
-    ...mapMutations(["changeLogin"]),
-    handleLogin() {
-      let _this = this;
-      if (this.loginForm.username === "" || this.loginForm.password === "") {
-        alert("账号或密码不能为空");
-      } else {
-        this.axios({
-          method: "post",
-          url: "http://localhost:8006/ucenterservice/ucentermember/login",
-          data: _this.loginForm,
-        })
-          .then((res) => {
-            // console.log(res.data);
-            _this.userToken = "Bearer " + res.data.data.token;
-            // 将用户token保存到vuex中
-            _this.changeLogin({ Authorization: _this.userToken });
-            console.log(_this.userToken);
-            _this.$router.push("/home");
-            console.log("登陆成功");
-          })
-          .catch((error) => {
-            alert("账号或密码错误");
-            console.log(error);
+    submitLogin() {
+      loginApi.submitLogin(this.user).then((response) => {
+        console.log(response);
+        if (response.data.success) {
+          this.userToken = response.data.data.token;
+          // 将用户token保存到vuex中
+          this.changeLogin({ Authorization: this.userToken });
+          //把token存在cookie中、也可以放在localStorage中
+          cookie.set("huiju_token", response.data.data.token, {
+            domain: "localhost",
           });
-      }
+          //登录成功根据token获取用户信息
+          loginApi.getLoginInfo().then((response) => {
+            this.loginInfo = response.data.data.item;
+            //将用户信息记录cookie
+            cookie.set("huiju_ucenter", this.loginInfo, {
+              domain: "localhost",
+            });
+            //跳转页面
+            window.location.href = "/home";
+          });
+        }
+      });
     },
   },
 };
