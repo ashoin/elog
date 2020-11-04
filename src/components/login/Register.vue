@@ -49,7 +49,7 @@
     </div>
     <!-- 注册的底部部分包含点击按钮 -->
     <div class="register-foot">
-      <van-row style="margin: 35px 0">
+      <van-row style="margin: 0.7rem 0">
         <van-button color="#D41C1C" size="large" style="width: 60%">
           注册
         </van-button>
@@ -73,10 +73,10 @@ export default {
 </script>
 <style scoped>
 .input {
-  height: 50px;
+  height: 1rem;
   width: 100%;
-  font-size: 18px;
-  margin: 20px 0;
+  font-size: 0.36rem;
+  margin: 0.4rem 0;
 }
 
 .register-container {
@@ -86,6 +86,6 @@ export default {
 .register-main {
   width: 90%;
   height: 100%;
-  margin: 20px auto;
+  margin: 0.4rem auto;
 }
 </style>

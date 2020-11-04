@@ -58,7 +58,7 @@
       <van-row>
         <van-button
           size="large"
-          style="width: 60%; margin: 20px 0"
+          style="width: 60%; margin: 0.4rem 0"
           color="#D41C1C"
           @click="nextStep"
         >
@@ -100,16 +100,19 @@ export default {
 };
 </script>
 <style scoped>
+.forget-password-container {
+  text-align: center;
+}
 .input {
-  height: 50px;
+  height: 1rem;
   width: 100%;
-  font-size: 18px;
-  margin: 20px 0;
+  font-size: 0.36rem;
+  margin: 0.4rem 0;
   border: 1px solid silver;
 }
 
 .forget-password-main {
   width: 80%;
-  margin: 20px auto;
+  margin: 0.4rem auto;
 }
 </style>

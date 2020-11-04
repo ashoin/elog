@@ -5,15 +5,19 @@
       <div class="nav-bar">
         <!-- 左侧 -->
         <div class="left">
-          <van-dropdown-menu slot="left-icon">
-            <van-dropdown-item :value="value1" :options="option1" />
-          </van-dropdown-menu>
+          <div slot="left-icon" @click="toLocation($event)">
+            {{ nowLocation }}
+          </div>
+          <van-icon name="arrow-down" />
         </div>
         <!-- 中间 -->
-        <van-field class="title" placeholder="请输入关键字" center>
-          <van-dropdown-menu slot="left-icon">
-            <van-dropdown-item :value="value1" :options="option1" />
-          </van-dropdown-menu>
+        <van-field
+          class="title"
+          placeholder="请输入关键字"
+          center
+          readonly
+          @click="toSearch"
+        >
           <van-icon slot="right-icon" name="search" />
         </van-field>
         <!-- 右侧 -->
@@ -27,82 +31,102 @@
       </div>
     </div>
     <!-- 中间主体部分 -->
-    <div class="home-mian">
+    <div class="home-main">
       <!-- 轮播图 -->
-      <banner></banner>
+      <banner />
+      <!--  宫格-->
+      <grid />
+      <!-- 新品推荐 -->
+      <new-goods />
+      <!-- 主题推荐 -->
+      <theme />
+      <!-- 视频 -->
+      <video-list />
+      <!-- 全屋订制 -->
+      <design-home />
+      <!-- 预约设计师 -->
+      <designer />
+      <!-- 商品分类 -->
+      <goods-category />
+      <!-- 体验馆 -->
+      <experience />
     </div>
     <!-- 底部导航信息 -->
-    <div class="foot">
-      <van-tabbar v-model="active">
-        <van-tabbar-item>
-          <span>首页</span>
-          <img
-            slot="icon"
-            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E9%A6%96%E9%A1%B5%E7%BA%A2%402x.png"
-          />
-        </van-tabbar-item>
-        <van-tabbar-item>
-          <span>分类</span>
-          <img
-            slot="icon"
-            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E5%88%86%E7%B1%BB%E7%81%B0%402x.png"
-          />
-        </van-tabbar-item>
-        <van-tabbar-item>
-          <span>秒杀</span>
-          <img
-            slot="icon"
-            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E7%A7%92%E6%9D%80%E7%81%B0%402x.png"
-          />
-        </van-tabbar-item>
-        <van-tabbar-item>
-          <span>购物车</span>
-          <img
-            slot="icon"
-            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%81%B0%402x.png"
-          />
-        </van-tabbar-item>
-        <van-tabbar-item>
-          <span>我的</span>
-          <img
-            slot="icon"
-            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E6%88%91%E7%9A%84%E7%81%B0%402x.png"
-          />
-        </van-tabbar-item>
-      </van-tabbar>
+    <div class="home-foot">
+      <wsf-foot :now-active="nowActive" />
     </div>
   </div>
 </template>
 <script>
 import Banner from "../components/home/Banner";
+import Grid from "../components/home/Grid";
+import NewGoods from "../components/home/NewGoods";
+import Theme from "../components/home/Theme";
+import VideoList from "../components/home/VideoList";
+import DesignHome from "../components/home/DesignHome";
+import Designer from "../components/home/Designer";
+import GoodsCategory from "../components/home/GoodsCategory";
+import Experience from "../components/home/Experience";
+import WsfFoot from "../components/myModule/WsfFoot";
 export default {
   components: {
     Banner,
+    Grid,
+    NewGoods,
+    Theme,
+    VideoList,
+    DesignHome,
+    Designer,
+    GoodsCategory,
+    Experience,
+    WsfFoot,
   },
   data() {
     return {
-      keywords: "",
-      option1: [
-        { text: "杭州", value: 0 },
-        { text: "扬州", value: 1 },
-        { text: "兰州", value: 2 },
-      ],
-      value1: 0,
-      active: 0,
+      nowActive: 0,
+      nowLocation: "杭州市",
     };
+  },
+  created() {
+    if (this.$route.query.newLocation != undefined) {
+      this.nowLocation = this.$route.query.newLocation;
+    }
+  },
+  methods: {
+    toLocation(e) {
+      this.$router.push({
+        name: "Location",
+        query: { address: this.nowLocation },
+      });
+    },
+
+    toSearch() {
+      this.$router.push("/home/search");
+    },
   },
 };
 </script>
 <style scoped lang='scss'>
 .home-container {
   width: 100%;
-  height: 100%;
-  background-color: silver;
+  display: flex;
+  flex-direction: column;
+  background-color: #ededed;
+  text-align: center;
 }
 .home-head {
   width: 100%;
-  height: 12%;
+  height: 1.4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
   background-color: white;
+}
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .van-dropdown-item {
   border: transparents;
@@ -119,14 +143,18 @@ export default {
   }
   .title {
     width: 55%;
-    font-size: 16px;
+    font-size: 0.32rem;
     border: 1px solid;
-    border-radius: 20px;
-    padding: 0 10px;
+    border-radius: 0.4rem;
+    padding: 0 0.2rem;
     height: 50%;
   }
   .right {
     width: 20%;
   }
+}
+.home-main {
+  width: 100%;
+  margin: 1.4rem 0 1rem 0;
 }
 </style>
