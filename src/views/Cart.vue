@@ -4,8 +4,8 @@
     <div class="cart-head">
       <span>购物车({{ count }})</span>
       <!-- TODO count 为 0 的时候要将（）去除 -->
-      <div @click="change = true" v-if="!change">编辑</div>
-      <div @click="change = false" v-else>完成</div>
+      <div @click="Edit(false)" v-if="$store.state.edit">编辑</div>
+      <div @click="Edit(true)" v-else>完成</div>
     </div>
     <!-- 主体部分展示 -->
     <div class="cart-main">
@@ -32,7 +32,9 @@
         button-text="去结算"
         @submit="toOrderPay"
       >
-        <van-checkbox v-model="checked">全选</van-checkbox>
+        <van-checkbox v-model="checked" @click="checkedAllGoods">
+          全选
+        </van-checkbox>
       </van-submit-bar>
       <!-- 删除和收藏 -->
       <div class="delete-collect" v-else>
@@ -91,6 +93,12 @@ export default {
         name: "CartOrder",
         query: "",
       });
+    },
+    checkedAllGoods() {
+      this.$store.commit("changeChecked", true);
+    },
+    Edit(bool) {
+      this.$store.commit("changeEdit", bool);
     },
   },
 };

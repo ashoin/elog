@@ -7,7 +7,9 @@ const store = new Vuex.Store({
     state: {
         // 存储token
         Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
-        goods: 'hello'
+        goods: 'hello',
+        checkedAll: false,
+        edit: true
     },
 
     mutations: {
@@ -19,6 +21,9 @@ const store = new Vuex.Store({
         changeText(state, text) {
             state.goods = text;
             Vue.set(state, 'save', text)
+        },
+        changeEdit(state, bool) {
+            state.checkedAll = bool
         }
     },
 

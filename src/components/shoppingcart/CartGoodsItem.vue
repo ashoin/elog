@@ -1,41 +1,57 @@
 <template>
   <div class="goods-item-container">
-    <van-checkbox-group v-model="result" ref="checkboxGroup">
-      <van-checkbox class="goods-item-title" name="title" @change="checkAll">
-        家具 Design
-      </van-checkbox>
-      <van-checkbox name="id">
+    <van-checkbox class="goods-item-title" v-model="checkedAll">
+      家具 Design
+    </van-checkbox>
+    <div v-if="$store.state.edit">
+      <van-checkbox
+        v-model="course.checked"
+        :name="course.id"
+        v-for="course in courseList"
+        :key="course.id"
+      >
         <!-- 信息展示区 -->
         <div class="goods-card">
           <van-image
             src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/shoppingcart/liuyanpic%402x.png"
           />
           <div class="goods-info">
-            <span style="font-size: 0.32rem">木质设计感茶几</span>
-            <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
-            <span>胡桃木色</span>
+            <span style="font-size: 0.32rem">{{ course.goods }}</span>
+            <span style="font-size: 0.26rem">{{ course.len }}</span>
+            <span>{{ course.color }}</span>
             <div class="goods-price">
               <span style="font-size: 0.38rem; color: red">￥290</span>
               <span>x 1</span>
             </div>
           </div>
         </div>
-        <!-- 留言展示区 -->
       </van-checkbox>
-      <div class="edit-message">
-        <form action="/">
-          <van-search
-            readonly
-            v-model="message"
-            show-action
-            left-icon=""
-            placeholder="暂未编辑留言"
-          >
-            <span slot="action" @click="toMessage">留言</span>
-          </van-search>
-        </form>
-      </div>
-    </van-checkbox-group>
+    </div>
+    <div class="edit-cart" v-for="course in courseList" :key="course.id" v-else>
+      <van-checkbox v-model="course.checked" :name="course.id">
+        <!-- 信息展示区 -->
+        <div class="goods-card">
+          <van-image
+            src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/shoppingcart/liuyanpic%402x.png"
+          />
+        </div>
+      </van-checkbox>
+      <van-stepper v-model="course.count" />
+    </div>
+    <!-- 留言展示区 -->
+    <div class="edit-message">
+      <form action="/">
+        <van-search
+          readonly
+          v-model="message"
+          show-action
+          left-icon=""
+          placeholder="暂未编辑留言"
+        >
+          <span slot="action" @click="toMessage">留言</span>
+        </van-search>
+      </form>
+    </div>
   </div>
 </template>
 <script>
@@ -43,10 +59,39 @@ export default {
   props: ["message"],
   data() {
     return {
-      result: [],
-      isSelect: "false",
-      checked: false,
+      isEdit: false,
+      courseList: [
+        {
+          id: 10011,
+          len: "400*400*560；黑胡桃木",
+          color: "胡桃木色",
+          goods: "木质设计感茶几",
+          price: "￥290",
+          count: 1,
+          checked: false,
+        },
+        {
+          id: 10012,
+          len: "400*400*650；黑胡桃木",
+          color: "红木色",
+          goods: "木质设计感茶几吧",
+          price: "￥290",
+          checked: false,
+        },
+      ],
     };
+  },
+  computed: {
+    checkedAll: {
+      get() {
+        return this.courseList.every((course) => course.checked);
+      },
+      set(val) {
+        this.courseList.forEach((course) => {
+          course.checked = val;
+        });
+      },
+    },
   },
   methods: {
     toMessage() {
@@ -56,10 +101,6 @@ export default {
           message: this.message,
         },
       });
-    },
-    checkAll() {
-      console.log(this.result);
-      this.$refs.checkboxGroup.toggleAll(true);
     },
   },
 };
@@ -74,11 +115,18 @@ export default {
     padding: 0 0.3rem;
     border-bottom: 1px solid #ededed;
   }
+  .edit-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
+  }
   .van-checkbox {
     padding: 0 0.3rem;
+
     .goods-card {
-      width: 100%;
       display: flex;
+      align-items: center;
       padding: 0.2rem 0;
       border-bottom: 1px solid #ededed;
       .goods-info {
