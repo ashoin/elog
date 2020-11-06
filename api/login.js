@@ -5,7 +5,8 @@ export default {
     //登录
     submitLogin(userInfo) {
         return request({
-            url: `/ucenter/member/login`,
+            // url: `/ucenter/member/login`,
+            url: `/usermanage/user/login`,
             method: 'post',
             data: userInfo
         })
@@ -14,7 +15,9 @@ export default {
     getLoginInfo() {
         return request({
             //getUserInfoOrder/{id}
-            url: `/ucenter/member/auth/getLoginInfo`,
+            // POST /usermanage/user/auth/getLoginInfo
+            // url: `/ucenter/member/auth/getLoginInfo`,
+            url: `/usermanage/user/auth/getLoginInfo`,
             method: 'get',
             // headers: {'token': cookie.get('huiju_token')}
         })

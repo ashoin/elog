@@ -3,6 +3,7 @@
     <van-checkbox class="goods-item-title" v-model="checkedAll">
       家具 Design
     </van-checkbox>
+    <!-- 完成的时候出现的 -->
     <div v-if="$store.state.edit">
       <van-checkbox
         v-model="course.checked"
@@ -20,13 +21,16 @@
             <span style="font-size: 0.26rem">{{ course.len }}</span>
             <span>{{ course.color }}</span>
             <div class="goods-price">
-              <span style="font-size: 0.38rem; color: red">￥290</span>
-              <span>x 1</span>
+              <span style="font-size: 0.38rem; color: red"
+                >￥290{{ selectTotalPrice }}</span
+              >
+              <span>x {{ course.count }}</span>
             </div>
           </div>
         </div>
       </van-checkbox>
     </div>
+    <!-- 编辑时候出现、 -->
     <div class="edit-cart" v-for="course in courseList" :key="course.id" v-else>
       <van-checkbox v-model="course.checked" :name="course.id">
         <!-- 信息展示区 -->
@@ -66,7 +70,7 @@ export default {
           len: "400*400*560；黑胡桃木",
           color: "胡桃木色",
           goods: "木质设计感茶几",
-          price: "￥290",
+          price: 290,
           count: 1,
           checked: false,
         },
@@ -75,7 +79,8 @@ export default {
           len: "400*400*650；黑胡桃木",
           color: "红木色",
           goods: "木质设计感茶几吧",
-          price: "￥290",
+          price: 290,
+          count: 1,
           checked: false,
         },
       ],
@@ -89,11 +94,23 @@ export default {
       set(val) {
         this.courseList.forEach((course) => {
           course.checked = val;
+          this.checkedAllGood();
         });
       },
     },
+    selectList() {
+      return this.courseList.filter((course) => course.checked);
+    },
+    selectTotalPrice() {
+      let price = 0;
+      this.selectList.forEach((course) => {
+        price += course.price * course.count;
+      });
+      this.$store.commit("totalPrice", price);
+    },
   },
   methods: {
+    // 去留言方法
     toMessage() {
       this.$router.push({
         name: "CartMessage",
@@ -101,6 +118,11 @@ export default {
           message: this.message,
         },
       });
+    },
+    // 点击选择全部
+    checkedAllGood() {
+      console.log(this.checkedAll);
+      this.$emit("childChange", this.checkedAll);
     },
   },
 };

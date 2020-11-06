@@ -6,7 +6,7 @@
 
       <van-field
         class="input"
-        v-model="user.mobile"
+        v-model="user.phone"
         left-icon="phone-o"
         center
         clearable
@@ -76,7 +76,7 @@ export default {
     return {
       user: {
         password: "",
-        mobile: null,
+        phone: null,
       },
       loginInfo: null,
     };
@@ -100,24 +100,25 @@ export default {
           cookie.set("huiju_token", response.data.data.token, {
             domain: "localhost",
           });
-          //登录成功根据token获取用户信息
-          loginApi.getLoginInfo().then((response) => {
-            this.loginInfo = response.data.data.item;
-            //将用户信息记录cookie
-            cookie.set("huiju_ucenter", this.loginInfo, {
-              domain: "localhost",
-            });
-            //跳转页面
-            this.$router.push({
-              name: "Home",
-            });
+          //跳转页面
+          this.$router.push({
+            name: "Home",
           });
+          //登录成功根据token获取用户信息
+          // loginApi.getLoginInfo().then((response) => {
+          //   this.loginInfo = response.data.data.item;
+          //   //将用户信息记录cookie
+          //   cookie.set("huiju_ucenter", this.loginInfo, {
+          //     domain: "localhost",
+          //   });
+          //
+          // });
         }
       });
     },
     checkPhone() {
-      console.log(this.user.mobile);
-      if (!/^1[34578]\d{9}$/.test(this.user.mobile) && this.mobile != "") {
+      console.log(this.user.phone);
+      if (!/^1[34578]\d{9}$/.test(this.user.phone) && this.phone != "") {
         this.$notify("手机号码格式不正确");
       }
     },

@@ -49,7 +49,7 @@
             round
             style="margin-right: 0.2rem; border: 1px solid silver"
             v-if="order.isShow"
-            @click="toLofistics"
+            @click="toLogistics"
           >
             查看物流
           </van-button>
@@ -99,7 +99,7 @@ export default {
       this.allOrderList = null;
       this.hasOrder = true;
     },
-    toLofistics() {
+    toLogistics() {
       this.$router.push({
         name: "OrderLogistics",
       });

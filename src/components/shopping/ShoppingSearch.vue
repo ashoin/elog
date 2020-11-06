@@ -92,7 +92,7 @@ export default {
     },
     // 点击清除历史功能
     clearSearch() {
-      this.searchHistory = null;
+      this.searchHistory = [];
     },
   },
 };

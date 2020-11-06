@@ -19,25 +19,25 @@
     </div>
     <div class="order-main">
       <!-- 标题栏 -->
-      <van-tabs>
+      <van-tabs v-model="active">
         <!-- 全部订单 -->
-        <van-tab title="全部订单">
+        <van-tab title="全部订单" name="0">
           <mine-all-order-detail />
         </van-tab>
         <!-- 待付款 -->
-        <van-tab title="待付款">
+        <van-tab title="待付款" name="1">
           <mine-all-order-pay />
         </van-tab>
         <!-- 待发货 -->
-        <van-tab title="待发货">
+        <van-tab title="待发货" name="2">
           <mine-all-order-send />
         </van-tab>
         <!-- 配送中 -->
-        <van-tab title="配送中">
+        <van-tab title="配送中" name="3">
           <mine-all-order-delivery />
         </van-tab>
         <!-- 待评价 -->
-        <van-tab title="待评价">
+        <van-tab title="待评价" name="4">
           <mine-all-order-evaluate />
         </van-tab>
       </van-tabs>
@@ -61,7 +61,11 @@ export default {
   data() {
     return {
       hasOrder: false,
+      active: 0,
     };
+  },
+  created() {
+    this.active = this.$route.query.tabIndex;
   },
   methods: {
     toMine() {

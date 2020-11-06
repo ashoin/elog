@@ -21,7 +21,7 @@
           </div>
           <div class="all-goods">
             <!-- 信息展示区 -->
-            <div class="goods-card">
+            <div class="goods-card" @click="toOrderDetail">
               <van-image
                 src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/shoppingcart/liuyanpic%402x.png"
               />
@@ -68,7 +68,7 @@
           <van-button
             round
             style="color: red; border: 1px solid red; min-width: 1.8rem"
-            @click="toOrderDetail"
+            @click="toOrderPay"
           >
             {{ order.btnText }}
           </van-button>
@@ -102,6 +102,11 @@ export default {
     toOrderDetail() {
       this.$router.push({
         name: "OrderDetail",
+      });
+    },
+    toOrderPay() {
+      this.$router.push({
+        name: "OrderPay",
       });
     },
   },

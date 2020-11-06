@@ -20,18 +20,23 @@
       <!-- 如果购物车中有商品的情况下展示 -->
       <div class="cart-goods" v-else>
         <!-- 商品展示组件 -->
-        <cart-goods-item v-for="o in count" :key="o.index" :message="message" />
+        <cart-goods-item
+          :message="message"
+          @childChange="childCheckAll"
+          ref="child"
+        />
       </div>
     </div>
     <!-- 底部结算区域 -->
     <div class="cart-up-foot">
       <!-- 结算 -->
       <van-submit-bar
-        v-if="!change"
-        :price="0"
+        v-if="$store.state.edit"
+        :price="$store.state.price"
         button-text="去结算"
         @submit="toOrderPay"
       >
+        <!-- 重点的全选功能 -->
         <van-checkbox v-model="checked" @click="checkedAllGoods">
           全选
         </van-checkbox>
@@ -61,7 +66,7 @@ export default {
     return {
       change: false,
       nowActive: 3,
-      checked: "",
+      checked: false,
       count: 1,
       message: "",
     };
@@ -71,6 +76,7 @@ export default {
       this.message = this.$route.query.userMessage;
     }
   },
+  computed: {},
   methods: {
     // 删除按键方法
     handleDelete() {
@@ -94,9 +100,20 @@ export default {
         query: "",
       });
     },
+    // 全选按键功能
     checkedAllGoods() {
-      this.$store.commit("changeChecked", true);
+      console.log(this.$refs.child.selectTotalPrice);
+      if (this.checked == true) {
+        this.$refs.child.checkedAll = true;
+      } else {
+        this.$refs.child.checkedAll = false;
+      }
     },
+    // 子传父
+    childCheckAll(payload) {
+      this.checked = payload;
+    },
+    // 编辑和完成的功能按键
     Edit(bool) {
       this.$store.commit("changeEdit", bool);
     },

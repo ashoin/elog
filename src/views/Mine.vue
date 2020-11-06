@@ -58,18 +58,22 @@
           <van-grid-item
             icon="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/fu%402x.png"
             text="待付款"
+            :to="{ path: '/mine/order', query: { tabIndex: 1 } }"
           />
           <van-grid-item
             icon="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/fa%402x.png"
             text="待发货"
+            :to="{ path: '/mine/order', query: { tabIndex: 2 } }"
           />
           <van-grid-item
             icon="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/song%402x.png"
             text="配送中"
+            :to="{ path: '/mine/order', query: { tabIndex: 3 } }"
           />
           <van-grid-item
             icon="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/ping%402x.png"
             text="待评价"
+            :to="{ path: '/mine/order', query: { tabIndex: 4 } }"
           />
         </van-grid>
       </div>

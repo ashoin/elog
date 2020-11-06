@@ -4,7 +4,7 @@ const service = axios.create({
     //baseURL: 'http://qy.free.idcfengye.com/api',
     // api 的 base_url  //baseURL: 'http://localhost:8210',
     // api 的 base_url 
-    baseURL: 'http://localhost:8006',
+    baseURL: 'http://localhost:8104',
     timeout: 5000
     // 请求超时时间 
 }) // http request 拦截器

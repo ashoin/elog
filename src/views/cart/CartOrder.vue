@@ -79,7 +79,6 @@ const coupon = {
   valueDesc: "1.5",
   unitDesc: "元",
 };
-
 import OrderItem from "../../components/shoppingcart/OrderItem";
 export default {
   components: {
@@ -110,6 +109,8 @@ export default {
     },
     // 去支付
     toPay() {
+      let nowtime = new Date();
+      this.$store.commit("saveTime", nowtime.getTime());
       this.$router.push({
         name: "OrderPay",
         query: "",

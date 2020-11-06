@@ -6,7 +6,7 @@
         width="0.2rem"
         height="0.5rem"
         src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/back%402x.png"
-        @click="toCartOrder"
+        @click="toCart"
       />
       <span>支付方式</span>
     </div>
@@ -61,14 +61,21 @@
 export default {
   data() {
     return {
-      time: 15 * 60 * 1000,
-      radio: 1,
+      time: 900000,
+      radio: "1",
     };
   },
+  created() {
+    let nowtime = new Date();
+    if (this.$store.state.time !== undefined) {
+      this.time = this.$store.state.time + 900000 - nowtime.getTime();
+    }
+  },
+  watch: {},
   methods: {
-    toCartOrder() {
+    toCart() {
       this.$router.push({
-        name: "CartOrder",
+        name: "Cart",
         query: "",
       });
     },

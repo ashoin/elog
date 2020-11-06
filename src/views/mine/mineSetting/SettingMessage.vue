@@ -7,7 +7,7 @@
         src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/back%402x.png"
         @click="toMineSetting"
       />
-      <span>关于我们</span>
+      <span>意见反馈</span>
     </div>
     <div class="setting-message-main">
       <textarea type="text" v-model="MessageText" placeholder="写意见" />
