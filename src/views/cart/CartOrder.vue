@@ -80,6 +80,7 @@ const coupon = {
   unitDesc: "元",
 };
 import OrderItem from "../../components/shoppingcart/OrderItem";
+import { mapMutations, mapState } from "vuex";
 export default {
   components: {
     OrderItem,
@@ -92,7 +93,22 @@ export default {
       disabledCoupons: [coupon],
     };
   },
+
+  computed: {
+    ...mapState("savaOrdr", {
+      goods: "goods",
+    }),
+  },
+
+  created() {
+    // this.goods
+  },
+
   methods: {
+    ...mapMutations("saveOrder", {
+      saveTime: "saveTime",
+    }),
+
     // 返回到购物车
     toCart() {
       this.$router.push({
@@ -109,8 +125,8 @@ export default {
     },
     // 去支付
     toPay() {
-      let nowtime = new Date();
-      this.$store.commit("saveTime", nowtime.getTime());
+      let nowtime = new Date().getTime();
+      this.saveTime(nowtime);
       this.$router.push({
         name: "OrderPay",
         query: "",

@@ -1,13 +1,15 @@
+import Vue from 'vue'
+
 const saveOrder = {
     state: {
-        goods: 'hello',
+        goods: '',
         checkedAll: false,
         edit: true,
         price: 0,
     },
     mutations: {
         totalPrice(state, value) {
-            state.price = value * 100;
+            state.price = value
         },
         changeText(state, text) {
             state.goods = text;
@@ -23,6 +25,7 @@ const saveOrder = {
         saveTime(state, value) {
             Vue.set(state, 'time', value)
         }
-    }
+    },
+    namespaced: true,
 }
 export default saveOrder

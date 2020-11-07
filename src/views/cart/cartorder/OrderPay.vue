@@ -12,7 +12,7 @@
     </div>
     <!-- 倒计时 -->
     <div class="pay-time">
-      <van-count-down :time="time">
+      <van-count-down :time="countdown">
         <template #default="timeData">
           <span class="block">{{ timeData.minutes }}</span>
           <span class="colon">:</span>
@@ -58,20 +58,27 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      time: 900000,
+      countdown: 900000,
       radio: "1",
     };
   },
+  computed: {
+    ...mapState("saveOrder", {
+      time: "time",
+    }),
+  },
+
   created() {
+    console.log(this.time);
     let nowtime = new Date();
-    if (this.$store.state.time !== undefined) {
-      this.time = this.$store.state.time + 900000 - nowtime.getTime();
+    if (this.time !== undefined) {
+      this.countdown = this.time + 900000 - nowtime.getTime();
     }
   },
-  watch: {},
   methods: {
     toCart() {
       this.$router.push({

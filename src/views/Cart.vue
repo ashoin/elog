@@ -4,7 +4,7 @@
     <div class="cart-head">
       <span>购物车({{ count }})</span>
       <!-- TODO count 为 0 的时候要将（）去除 -->
-      <div @click="Edit(false)" v-if="$store.state.edit">编辑</div>
+      <div @click="Edit(false)" v-if="storeEdit">编辑</div>
       <div @click="Edit(true)" v-else>完成</div>
     </div>
     <!-- 主体部分展示 -->
@@ -31,8 +31,8 @@
     <div class="cart-up-foot">
       <!-- 结算 -->
       <van-submit-bar
-        v-if="$store.state.edit"
-        :price="$store.state.price"
+        v-if="storeEdit"
+        :price="price"
         button-text="去结算"
         @submit="toOrderPay"
       >
@@ -43,7 +43,9 @@
       </van-submit-bar>
       <!-- 删除和收藏 -->
       <div class="delete-collect" v-else>
-        <van-checkbox v-model="checked">全选</van-checkbox>
+        <van-checkbox v-model="checked" @click="checkedAllGoods">
+          全选
+        </van-checkbox>
         <van-button plain type="default">收藏</van-button>
         <van-button type="danger" @click="handleDelete">删除</van-button>
       </div>
@@ -57,6 +59,7 @@
 <script>
 import WsfFoot from "../components/myModule/WsfFoot";
 import CartGoodsItem from "../components/shoppingcart/CartGoodsItem";
+import { mapState, mapMutations } from "vuex";
 export default {
   components: {
     WsfFoot,
@@ -71,13 +74,28 @@ export default {
       message: "",
     };
   },
+
   created() {
     if (this.$route.query.userMessage != "") {
       this.message = this.$route.query.userMessage;
     }
+    if (this.goods == "") {
+      this.count = 0;
+    }
   },
-  computed: {},
+
+  computed: {
+    ...mapState("saveOrder", {
+      storeEdit: "edit",
+      price: "price",
+      goods: "goods",
+    }),
+  },
+
   methods: {
+    ...mapMutations("saveOrder", {
+      changeEdit: "changeEdit",
+    }),
     // 删除按键方法
     handleDelete() {
       this.$dialog
@@ -102,7 +120,7 @@ export default {
     },
     // 全选按键功能
     checkedAllGoods() {
-      console.log(this.$refs.child.selectTotalPrice);
+      console.log(this.storeEdit);
       if (this.checked == true) {
         this.$refs.child.checkedAll = true;
       } else {
@@ -115,7 +133,7 @@ export default {
     },
     // 编辑和完成的功能按键
     Edit(bool) {
-      this.$store.commit("changeEdit", bool);
+      this.changeEdit(bool);
     },
   },
 };

@@ -11,5 +11,6 @@ const token = {
             localStorage.setItem('Authorization', user.Authorization);
         }
     },
+    namespaced: true,
 }
 export default token

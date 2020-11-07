@@ -6,7 +6,7 @@
       <van-cell-group>
         <van-field
           class="input"
-          v-model="mobile"
+          v-model="register.phone"
           left-icon="phone-o"
           center
           clearable
@@ -19,7 +19,7 @@
         />
         <van-field
           class="input"
-          v-model="sms"
+          v-model="register.code"
           center
           clearable
           left-icon="comment-o"
@@ -31,7 +31,7 @@
         </van-field>
         <van-field
           class="input"
-          v-model="password"
+          v-model="register.password"
           center
           clearable
           type="password"
@@ -40,7 +40,7 @@
         />
         <van-field
           class="input"
-          v-model="password"
+          v-model="register.presentCode"
           center
           clearable
           left-icon="friends-o"
@@ -51,7 +51,12 @@
     <!-- 注册的底部部分包含点击按钮 -->
     <div class="register-foot">
       <van-row style="margin: 0.7rem 0">
-        <van-button color="#D41C1C" size="large" style="width: 60%">
+        <van-button
+          color="#D41C1C"
+          size="large"
+          style="width: 60%"
+          @click="submitInfo"
+        >
           注册
         </van-button>
       </van-row>
@@ -62,19 +67,42 @@
   </div>
 </template>
 <script>
+import registerApi from "../../../api/register";
 export default {
   data() {
     return {
-      mobile: "",
-      password: "",
-      sms: "",
+      register: {
+        phone: "",
+        password: "",
+        code: "",
+        presentCode: "",
+        username: "铁锤妹妹",
+      },
     };
   },
   methods: {
     checkPhone() {
-      if (!/^1[34578]\d{9}$/.test(this.mobile) && this.mobile != "") {
+      if (
+        !/^1[34578]\d{9}$/.test(this.register.phone) &&
+        this.register.phone != ""
+      ) {
         this.$notify("手机号码格式不正确");
       }
+    },
+    submitInfo() {
+      this.register.username = this.register.username + this.register.phone;
+      registerApi
+        .submitRegister(this.register)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 20000 && res.data.message == "成功") {
+            this.$toast.success("注册成功");
+            this.register = { username: "铁锤妹妹" };
+          }
+        })
+        .catch((res) => {
+          this.$toast.fail("注册失败");
+        });
     },
   },
 };

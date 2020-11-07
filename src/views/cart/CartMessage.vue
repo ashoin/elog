@@ -27,6 +27,7 @@
       </div>
       <!-- 留言区 -->
       <textarea
+        style="margin-top: 0.2rem"
         v-model="message"
         placeholder="输入留言"
         cols="43"

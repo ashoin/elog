@@ -4,12 +4,13 @@
       家具 Design
     </van-checkbox>
     <!-- 完成的时候出现的 -->
-    <div v-if="$store.state.edit">
+    <div v-if="storeEdit">
       <van-checkbox
         v-model="course.checked"
         :name="course.id"
         v-for="course in courseList"
         :key="course.id"
+        @click="isCheckedAll"
       >
         <!-- 信息展示区 -->
         <div class="goods-card">
@@ -32,7 +33,11 @@
     </div>
     <!-- 编辑时候出现、 -->
     <div class="edit-cart" v-for="course in courseList" :key="course.id" v-else>
-      <van-checkbox v-model="course.checked" :name="course.id">
+      <van-checkbox
+        v-model="course.checked"
+        :name="course.id"
+        @click="isCheckedAll"
+      >
         <!-- 信息展示区 -->
         <div class="goods-card">
           <van-image
@@ -59,6 +64,7 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   props: ["message"],
   data() {
@@ -86,7 +92,12 @@ export default {
       ],
     };
   },
+
   computed: {
+    ...mapState("saveOrder", {
+      storeEdit: "edit",
+      goods: "goods",
+    }),
     checkedAll: {
       get() {
         return this.courseList.every((course) => course.checked);
@@ -106,10 +117,25 @@ export default {
       this.selectList.forEach((course) => {
         price += course.price * course.count;
       });
-      this.$store.commit("totalPrice", price);
+      this.totalPrice(price);
     },
   },
+
+  created() {
+    console.log(this.goods);
+    this.courseList.forEach((course) => {
+      course.len = this.goods.goodsname;
+      course.color = this.goods.goodscolor;
+      course.price = this.goods.price;
+      course.count = this.goods.count;
+    });
+  },
+
   methods: {
+    ...mapMutations("saveOrder", {
+      totalPrice: "totalPrice",
+      changeEdit: "changeEdit",
+    }),
     // 去留言方法
     toMessage() {
       this.$router.push({
@@ -121,8 +147,15 @@ export default {
     },
     // 点击选择全部
     checkedAllGood() {
-      console.log(this.checkedAll);
       this.$emit("childChange", this.checkedAll);
+    },
+    // 确认是否全选
+    isCheckedAll() {
+      if (this.checkedAll == true) {
+        this.$emit("childChange", this.checkedAll);
+      } else {
+        this.$emit("childChange", this.checkedAll);
+      }
     },
   },
 };

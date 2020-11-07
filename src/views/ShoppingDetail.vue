@@ -89,6 +89,7 @@ import ShoppingMainDetail from "../components/shopping/ShoppingMainDetail";
 import ShoppingMainParams from "../components/shopping/ShoppingMainParams";
 import WsfUserEvalute from "../components/myModule/WsfUserEvaluta";
 import WsfSku from "../components/myModule/WsfSku";
+import { mapMutations } from "vuex";
 export default {
   components: {
     ShoppingDetailHead,
@@ -158,6 +159,8 @@ export default {
             price: 219000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129308,
+            goodsname: "150*40*45cm;白橡木;",
+            goodscolor: "胡桃色",
           },
           {
             id: 2259, // skuId
@@ -167,6 +170,8 @@ export default {
             price: 229000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129307,
+            goodsname: "150*40*45cm;白橡木;",
+            goodscolor: "原木色",
           },
           {
             id: 2259, // skuId
@@ -176,6 +181,8 @@ export default {
             price: 239000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129306,
+            goodsname: "150*40*45cm;红杉木;",
+            goodscolor: "胡桃色",
           },
           {
             id: 2259, // skuId
@@ -185,6 +192,9 @@ export default {
             price: 249000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129305,
+            goodsId: 123103080129306,
+            goodsname: "150*40*65cm;白橡木;",
+            goodscolor: "胡桃色",
           },
           {
             id: 2259, // skuId
@@ -194,6 +204,8 @@ export default {
             price: 259000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129304,
+            goodsname: "150*40*45cm;红杉木;",
+            goodscolor: "原木色",
           },
           {
             id: 2259, // skuId
@@ -203,6 +215,8 @@ export default {
             price: 269000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129303,
+            goodsname: "150*40*65cm;白橡木;",
+            goodscolor: "原木色",
           },
           {
             id: 2259, // skuId
@@ -212,6 +226,8 @@ export default {
             price: 279000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129302,
+            goodsname: "150*40*65cm;红杉木;",
+            goodscolor: "胡桃色",
           },
           {
             id: 2259, // skuId
@@ -221,6 +237,8 @@ export default {
             price: 289000, // 价格（单位分）
             stock_num: 110, // 当前 sku 组合对应的库存
             goodsId: 123103080129301,
+            goodsname: "150*40*65cm;红杉木;",
+            goodscolor: "原木色",
           },
         ],
         price: "290.00", // 默认价格（单位元）
@@ -246,7 +264,6 @@ export default {
         picture:
           "https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/canshu-%402x.png",
       },
-
       userInfoList: [
         {
           id: 10001,
@@ -332,6 +349,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("saveOrder", {
+      changeText: "changeText",
+    }),
     // 去用户评价页面
     toUserEvalute() {
       this.$router.push({
@@ -344,7 +364,10 @@ export default {
     // 点击加入购物功能
     addCart(e) {
       this.isShow = false;
-      this.$store.commit("changeText", e.selectedSkuComb);
+      console.log(e);
+      let addGoods = e.selectedSkuComb;
+      addGoods.count = e.selectedNum;
+      this.changeText(addGoods);
       this.$toast.success("添加成功");
     },
     toHome() {

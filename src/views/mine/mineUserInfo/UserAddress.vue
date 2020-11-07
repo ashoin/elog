@@ -44,7 +44,7 @@
           <div class="btns">
             <van-radio :name="address.id">设为默认</van-radio>
             <div>
-              <van-button>编辑</van-button>
+              <van-button @click="toEditAddress">编辑</van-button>
               <van-button>删除</van-button>
             </div>
           </div>
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       hasAddress: false,
-
       radio: 10011,
       addressList: [
         {
@@ -94,6 +93,16 @@ export default {
     toAddAddress() {
       this.$router.push({
         name: "AddressAdd",
+      });
+    },
+    // 编辑地址
+    toEditAddress() {
+      this.$router.push({
+        name: "AddressAdd",
+        query: {
+          edit: true,
+          id: 15224151472,
+        },
       });
     },
   },

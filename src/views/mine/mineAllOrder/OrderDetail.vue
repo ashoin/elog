@@ -101,6 +101,9 @@ export default {
     toMineAllOrder() {
       this.$router.push({
         name: "MineAllOrder",
+        query: {
+          tabIndex: "1",
+        },
       });
     },
   },

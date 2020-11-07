@@ -55,6 +55,7 @@
   </div>
 </template>
 <script>
+import addressApi from "../../../../../api/login";
 export default {
   data() {
     return {
@@ -66,6 +67,18 @@ export default {
         checked: true,
       },
     };
+  },
+  created() {
+    if (this.$route.query.edit == true) {
+      addressApi.userAddress(this.$route.query.id).then((res) => {
+        let user = res.data.data.defaultAddr;
+        this.newAddress.street = user.address;
+        this.newAddress.name = user.username;
+        this.newAddress.checked = user.isDefault;
+        this.newAddress.tel = user.mobile;
+        this.newAddress.periouce = "浙江省杭州市";
+      });
+    }
   },
   methods: {
     toUserAddress() {

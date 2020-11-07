@@ -1,7 +1,18 @@
 //   api.js
 import request from '@/utils/request'
 
+
 export default {
+
+    //根据token获取用户信息
+    getLoginInfo() {
+        return request({
+            // url: `/ucenter/member/auth/getLoginInfo`,
+            url: `/usermanage/user/auth/getLoginInfo`,
+            method: 'get',
+        })
+    },
+
     //登录
     submitLogin(userInfo) {
         return request({
@@ -11,15 +22,13 @@ export default {
             data: userInfo
         })
     },
-    //根据token获取用户信息
-    getLoginInfo() {
+
+    // 查找用户地址
+    userAddress(id) {
         return request({
-            //getUserInfoOrder/{id}
-            // POST /usermanage/user/auth/getLoginInfo
-            // url: `/ucenter/member/auth/getLoginInfo`,
-            url: `/usermanage/user/auth/getLoginInfo`,
+            url: `/usermanage/user-address/getDefaultAddr/${id}`,
             method: 'get',
-            // headers: {'token': cookie.get('huiju_token')}
         })
-    },
+    }
+
 }

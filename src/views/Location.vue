@@ -92,7 +92,6 @@ export default {
     margin: 0.2rem;
   }
   .hot-city-list {
-    width: 100%;
     padding: 0.2rem 0.3rem;
     display: flex;
     flex-wrap: wrap;
