@@ -193,7 +193,7 @@ export default {
     padding: 1.2rem 0 2rem 0;
     border-top: 0.2rem solid #ededed;
     .van-empty {
-      padding: 30% 0 70% 0;
+      padding: 30% 0;
     }
   }
 }

@@ -2,7 +2,7 @@ import axios from 'axios'
 import cookie from 'js-cookie' // 创建axios实例
 const service = axios.create({
     // api 的 base_url 
-    baseURL: '//172.18.1.101:8222',
+    baseURL: 'http://192.168.43.130:8222',
     timeout: 5000
     // 请求超时时间 
 }) // http request 拦截器

@@ -4,16 +4,13 @@
     <div class="search-head">
       <div class="head-search">
         <van-image
-          width=".2rem"
+          width="0.2rem"
           height="0.4rem"
           src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/back%402x.png"
           @click="toHome"
         />
         <div class="search-input">
-          <van-button>
-            商品
-            <van-icon name="arrow-down" />
-          </van-button>
+          <van-button> 商品<van-icon name="arrow-down" /> </van-button>
           <!-- 添加搜索事件 -->
           <input type="text" placeholder="请输入关键字" v-model="searchText" />
         </div>
@@ -109,10 +106,9 @@ p {
 }
 .head-search {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   height: 1.2rem;
-  padding: 0 0.3rem;
   .search-input {
     display: flex;
     border: 1px solid silver;

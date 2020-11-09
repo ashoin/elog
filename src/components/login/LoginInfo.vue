@@ -101,10 +101,10 @@ export default {
           });
           //登录成功根据token获取用户信息;
           //TODO loginApi 为什么请求不到数据
-          loginApi.getLoginInfo().then((res) => {
-            console.log(res);
-            this.loginInfo = response.data;
-          });
+          // loginApi.getLoginInfo().then((res) => {
+          //   console.log(res);
+          //   this.loginInfo = response.data;
+          // });
           this.axios
             .get("http://172.18.1.101:8222/usermanage/user/auth/getLoginInfo", {
               headers: {

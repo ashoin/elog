@@ -19,7 +19,7 @@
     </div>
     <div class="order-main">
       <!-- 标题栏 -->
-      <van-tabs v-model="active">
+      <van-tabs v-model="active" swipeable line-width="1.2rem">
         <!-- 全部订单 -->
         <van-tab title="全部订单" name="0">
           <mine-all-order-detail />
@@ -101,10 +101,10 @@ export default {
   /deep/.van-tab {
     font-size: 0.3rem;
   }
-  /deep/.van-tabs__line {
-    width: 1rem;
-    height: 0.06rem;
-  }
+  // /deep/.van-tabs__line {
+  //   width: 1rem;
+  //   height: 0.06rem;
+  // }
   /deep/.van-tabs__wrap {
     border-bottom: 1px solid #ededed;
   }

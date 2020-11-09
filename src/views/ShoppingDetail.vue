@@ -411,4 +411,7 @@ export default {
 .van-tabs {
   margin-top: 0.3rem;
 }
+.van-goods-action {
+  z-index: 2;
+}
 </style>

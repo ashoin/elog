@@ -76,7 +76,8 @@ export default {
 <style scoped lang='scss'>
 .user-authentic-container {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 1.2rem);
+  padding-top: 1.2rem;
   background-color: #ededed;
   .authentic-head {
     width: 100%;
@@ -106,17 +107,17 @@ export default {
   .authentic-main-submit {
     height: 100%;
     background-color: white;
-    margin-top: 1.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     font-size: 0.38rem;
     .authentic-name,
     .authentic-code {
-      height: 1.5rem;
+      height: 1.6rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
+      justify-content: space-around;
       font-size: 0.38rem;
     }
     .van-button {

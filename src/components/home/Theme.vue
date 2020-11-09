@@ -95,8 +95,6 @@ export default {
   overflow: scroll;
 }
 .theme-card {
-  width: 2.8rem;
-  height: 4rem;
   border: 1px solid silver;
   margin: 0 0.2rem;
   padding: 0.1rem;
@@ -104,7 +102,7 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  font-size: 0.28rem;
+  font-size: 0.26rem;
   .icons {
     width: 100%;
     display: flex;
