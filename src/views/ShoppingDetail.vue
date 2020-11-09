@@ -46,7 +46,7 @@
     <div class="detail-foot">
       <van-goods-action>
         <van-goods-action-icon icon="chat-o" text="客服" />
-        <van-goods-action-icon icon="cart-o" text="购物车" />
+        <van-goods-action-icon icon="cart-o" text="购物车" @click="toCart" />
         <!-- 点击图标小功能直接写在页面上 -->
         <van-goods-action-icon
           icon="star-o"
@@ -88,7 +88,7 @@ import ShoppingDetailHead from "../components/shopping/ShoppingDetailHead";
 import ShoppingMainDetail from "../components/shopping/ShoppingMainDetail";
 import ShoppingMainParams from "../components/shopping/ShoppingMainParams";
 import WsfUserEvalute from "../components/myModule/WsfUserEvaluta";
-import WsfSku from "../components/myModule/WsfSku";
+
 import { mapMutations } from "vuex";
 export default {
   components: {
@@ -96,7 +96,6 @@ export default {
     ShoppingMainDetail,
     ShoppingMainParams,
     WsfUserEvalute,
-    WsfSku,
   },
   data() {
     return {
@@ -372,6 +371,11 @@ export default {
     },
     toHome() {
       this.$router.push("/home");
+    },
+    toCart() {
+      this.$router.push({
+        name: "Cart",
+      });
     },
   },
 };

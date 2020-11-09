@@ -20,11 +20,7 @@
       <!-- 如果购物车中有商品的情况下展示 -->
       <div class="cart-goods" v-else>
         <!-- 商品展示组件 -->
-        <cart-goods-item
-          :message="message"
-          @childChange="childCheckAll"
-          ref="child"
-        />
+        <cart-goods-item @childChange="childCheckAll" ref="child" />
       </div>
     </div>
     <!-- 底部结算区域 -->
@@ -34,7 +30,7 @@
         v-if="storeEdit"
         :price="price"
         button-text="去结算"
-        @submit="toOrderPay"
+        @submit="toCartOrder"
       >
         <!-- 重点的全选功能 -->
         <van-checkbox v-model="checked" @click="checkedAllGoods">
@@ -70,8 +66,7 @@ export default {
       change: false,
       nowActive: 3,
       checked: false,
-      count: 1,
-      message: "",
+      count: 2,
     };
   },
 
@@ -95,6 +90,7 @@ export default {
   methods: {
     ...mapMutations("saveOrder", {
       changeEdit: "changeEdit",
+      saveCourseList: "saveCourseList",
     }),
     // 删除按键方法
     handleDelete() {
@@ -112,7 +108,8 @@ export default {
         });
     },
     // 去结算方法
-    toOrderPay() {
+    toCartOrder() {
+      this.saveCourseList(this.$refs.child.courseList);
       this.$router.push({
         name: "CartOrder",
         query: "",

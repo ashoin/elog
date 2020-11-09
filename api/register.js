@@ -10,5 +10,12 @@ export default {
             method: 'post',
             data: registerInfo
         })
+    },
+    //获得验证码
+    getRegisterCode(phone) {
+        return request({
+            url: `/usermanage/msm/send/${phone}`,
+            method: 'get'
+        })
     }
 }

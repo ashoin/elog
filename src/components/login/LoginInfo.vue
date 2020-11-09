@@ -3,7 +3,6 @@
     <!-- 主体部分 -->
     <div class="login-main">
       <!-- 登录相关的信息 -->
-
       <van-field
         class="input"
         v-model="user.phone"

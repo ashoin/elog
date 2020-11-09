@@ -6,8 +6,8 @@
         <!-- 左侧 -->
         <div class="left">
           <!-- 去设置地址 -->
-          <div slot="left-icon" @click="toLocation($event)">
-            {{ nowLocation }}
+          <div slot="left-icon" @click="toLocation">
+            {{ city }}
           </div>
           <van-icon name="arrow-down" />
         </div>
@@ -69,6 +69,7 @@ import Designer from "../components/home/Designer";
 import GoodsCategory from "../components/home/GoodsCategory";
 import Experience from "../components/home/Experience";
 import WsfFoot from "../components/myModule/WsfFoot";
+import { mapState } from "vuex";
 export default {
   components: {
     Banner,
@@ -85,8 +86,12 @@ export default {
   data() {
     return {
       nowActive: 0,
-      nowLocation: "杭州市",
     };
+  },
+  computed: {
+    ...mapState("token", {
+      city: "city",
+    }),
   },
   created() {
     if (this.$route.query.newLocation != undefined) {
@@ -95,10 +100,9 @@ export default {
   },
   methods: {
     // 去设置地址的方法
-    toLocation(e) {
+    toLocation() {
       this.$router.push({
         name: "Location",
-        query: { address: this.nowLocation },
       });
     },
     // 去搜索商品的方法

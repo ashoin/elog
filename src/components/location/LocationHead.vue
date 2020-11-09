@@ -6,21 +6,25 @@
       <div class="loaction-btn">搜索</div>
     </div>
     <div class="head-show">
-      <span style="font-size: 0.34rem">当前定位：{{ nowLocation }}</span>
+      <span style="font-size: 0.34rem">当前定位：{{ city }}</span>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
-  props: ["nowLocation"],
   data() {
     return {};
+  },
+  computed: {
+    ...mapState("token", {
+      city: "city",
+    }),
   },
   methods: {
     toHome() {
       this.$router.push({
         name: "Home",
-        query: { newLocation: this.nowLocation },
       });
     },
   },

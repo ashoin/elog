@@ -25,8 +25,17 @@
           left-icon="comment-o"
           placeholder="请输入短信验证码"
         >
-          <van-button slot="button" size="small" type="primary">
+          <van-button
+            slot="button"
+            size="small"
+            type="primary"
+            @click="getCode"
+            v-if="isGetCode"
+          >
             获取验证码
+          </van-button>
+          <van-button style="width: 2rem" size="small" slot="button" v-else>
+            <van-count-down time="60000" format="ss" />
           </van-button>
         </van-field>
         <van-field
@@ -78,17 +87,38 @@ export default {
         presentCode: "",
         username: "铁锤妹妹",
       },
+      isGetCode: true,
+      getCodeLock: false,
     };
   },
   methods: {
+    // 手机号码限制
     checkPhone() {
       if (
         !/^1[34578]\d{9}$/.test(this.register.phone) &&
         this.register.phone != ""
       ) {
         this.$notify("手机号码格式不正确");
+      } else {
+        this.getCodeLock = true;
       }
     },
+    // 获得验证码
+    getCode() {
+      console.log("gooooood");
+      if (this.getCodeLock == true) {
+        this.isGetCode = false;
+        registerApi.getRegisterCode(this.register.phone).then((res) => {
+          this.$toast.success("验证码发送成功");
+        });
+        setTimeout(() => {
+          that.isGetCode = true;
+        }, 60000);
+      } else {
+        this.$toast("请先输入手机号");
+      }
+    },
+    // 点击注册
     submitInfo() {
       this.register.username = this.register.username + this.register.phone;
       registerApi

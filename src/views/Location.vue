@@ -1,7 +1,7 @@
 <template>
   <div class="location-container">
     <!-- 头部搜索栏 -->
-    <location-head :now-location="nowLocation"></location-head>
+    <location-head></location-head>
     <!-- 主体部分 -->
     <div class="location-main">
       <!-- 热门城市 -->
@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 import LocationHead from "../components/location/LocationHead";
 export default {
   components: {
@@ -42,7 +43,6 @@ export default {
   },
   data() {
     return {
-      nowLocation: "",
       allCities: [],
       hotCityList: [
         "北京市",
@@ -59,15 +59,22 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("token", {
+      city: "city",
+    }),
+  },
   created() {
-    this.nowLocation = this.$route.query.address;
     this.axios.get("/city.json").then((res) => {
       this.allCities = res.data.city;
     });
   },
   methods: {
+    ...mapMutations("token", {
+      changeCity: "changeCity",
+    }),
     getAddress(e) {
-      this.nowLocation = e.target.innerText;
+      this.changeCity(e.target.innerText);
     },
   },
 };

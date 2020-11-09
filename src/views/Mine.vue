@@ -26,14 +26,14 @@
       </div>
       <!-- 签到栏 -->
       <div class="mine-head-sign">
-        <div @click="sign = '已签到'">
+        <div @click="changeSign">
           <van-image
             width="0.4rem"
             height="0.4rem"
             src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/qian-%402x.png"
           />
           <span style="font-size: 0.28rem; margin-left: 0.14rem">
-            {{ sign }}
+            {{ signIn }}
           </span>
         </div>
         <div v-for="sign in allSign" :key="sign.id">
@@ -127,6 +127,7 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 import WsfFoot from "../components/myModule/WsfFoot";
 export default {
   components: {
@@ -206,7 +207,15 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("token", {
+      signIn: "signIn",
+    }),
+  },
   methods: {
+    ...mapMutations("token", {
+      changeSign: "changeSign",
+    }),
     // 去设置
     toSetting() {
       this.$router.push({

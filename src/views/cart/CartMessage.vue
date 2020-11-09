@@ -28,7 +28,7 @@
       <!-- 留言区 -->
       <textarea
         style="margin-top: 0.2rem"
-        v-model="message"
+        v-model="randomSessage"
         placeholder="输入留言"
         cols="43"
         rows="8"
@@ -37,24 +37,28 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       submitMessage: "",
-      message: "",
+      randomSessage: this.message,
     };
   },
-  created() {
-    this.message = this.$route.query.message;
+  computed: {
+    ...mapState("saveOrder", {
+      message: "message",
+    }),
   },
+
   methods: {
+    ...mapMutations("saveOrder", {
+      changeMessages: "changeMessages",
+    }),
     // 返回到购物车
     toCart() {
       this.$router.push({
         name: "Cart",
-        query: {
-          userMessage: this.submitMessage,
-        },
       });
     },
     //提交按钮
@@ -62,10 +66,10 @@ export default {
       this.$dialog
         .confirm({
           title: "确认修改",
-          message: this.message,
+          message: this.randomSessage,
         })
         .then(() => {
-          this.submitMessage = this.message;
+          this.changeMessages(this.randomSessage);
           this.$toast.success("修改成功");
         })
         .catch(() => {

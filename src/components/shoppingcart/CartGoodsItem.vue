@@ -23,7 +23,7 @@
             <span>{{ course.color }}</span>
             <div class="goods-price">
               <span style="font-size: 0.38rem; color: red"
-                >￥290{{ selectTotalPrice }}</span
+                >￥{{ course.price / 100 }}{{ selectTotalPrice }}</span
               >
               <span>x {{ course.count }}</span>
             </div>
@@ -66,7 +66,6 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 export default {
-  props: ["message"],
   data() {
     return {
       isEdit: false,
@@ -89,6 +88,15 @@ export default {
           count: 1,
           checked: false,
         },
+        {
+          id: 10013,
+          len: "400*400*650；黑胡桃木",
+          color: "红木色",
+          goods: "木质设计感茶几吧",
+          price: 290,
+          count: 1,
+          checked: false,
+        },
       ],
     };
   },
@@ -97,6 +105,7 @@ export default {
     ...mapState("saveOrder", {
       storeEdit: "edit",
       goods: "goods",
+      message: "message",
     }),
     checkedAll: {
       get() {
@@ -122,7 +131,6 @@ export default {
   },
 
   created() {
-    console.log(this.goods);
     this.courseList.forEach((course) => {
       course.len = this.goods.goodsname;
       course.color = this.goods.goodscolor;
