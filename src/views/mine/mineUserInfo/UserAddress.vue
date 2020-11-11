@@ -54,6 +54,7 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -62,7 +63,7 @@ export default {
       addressList: [
         {
           id: 10011,
-          name: "张三",
+          name: "铁锤妹妹",
           tel: "18888888888",
           periouce: "浙江省杭州市",
           street: "街道办9号",
@@ -76,7 +77,7 @@ export default {
         },
         {
           id: 10013,
-          name: "铁锤妹妹",
+          name: "张三",
           tel: "18888888888",
           periouce: "浙江省杭州市江干区反贪局",
           street: "街道办9号",
@@ -84,11 +85,35 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("payOrder", {
+      needRoute: "needRoute",
+      needRouteTwo: "needRouteTwo",
+    }),
+  },
   methods: {
+    ...mapMutations("payOrder", {
+      changeNeedRoute: "changeNeedRoute",
+    }),
     toMineUserInfo() {
-      this.$router.push({
-        name: "MineUserInfo",
-      });
+      if (this.needRoute == 1) {
+        this.$router.push({
+          name: "CartOrder",
+          query: {
+            name: "张三",
+          },
+        });
+        this.changeNeedRoute(10);
+      } else if (this.needRoute == 2) {
+        this.$router.push({
+          name: "OrderDetail",
+        });
+        this.changeNeedRoute(10);
+      } else {
+        this.$router.push({
+          name: "MineUserInfo",
+        });
+      }
     },
     toAddAddress() {
       this.$router.push({

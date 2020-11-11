@@ -1,7 +1,7 @@
 <template>
   <div class="all-order-pay-container">
     <!-- 没有订单的情况 -->
-    <div class="order-none" v-if="hasOrder">
+    <div class="order-none" v-if="needDelivery">
       <van-empty
         class="custom-image"
         image="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E8%AE%A2%E5%8D%95/nulldan%402x.png"
@@ -78,11 +78,11 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       show: false,
-      hasOrder: false,
       allOrderList: [
         {
           id: 10011,
@@ -93,11 +93,22 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("payOrder", {
+      needDelivery: "needDelivery",
+    }),
+  },
   methods: {
+    ...mapMutations("payOrder", {
+      changeNeedEvaluate: "changeNeedEvaluate",
+      changeNeedDelivery: "changeNeedDelivery",
+    }),
     deleteOrder() {
       this.show = false;
-      this.allOrderList = null;
-      this.hasOrder = true;
+      this.changeNeedDelivery(true);
+      this.changeNeedEvaluate(false);
+      // this.allOrderList = null;
+      // this.hasOrder = true;
     },
     toLogistics() {
       this.$router.push({

@@ -54,16 +54,18 @@
       </div>
     </div>
     <!-- 底部按钮样式  -->
-    <div class="pay-foot">立即支付</div>
+    <div class="pay-foot" @click="topay">立即支付</div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
+import toPayApi from "../../../../api/toPay";
 export default {
   data() {
     return {
       countdown: 900000,
       radio: "1",
+      id: "202009230000165767592",
     };
   },
   computed: {
@@ -73,18 +75,36 @@ export default {
   },
 
   created() {
-    console.log(this.time);
     let nowtime = new Date();
     if (this.time !== undefined) {
       this.countdown = this.time + 900000 - nowtime.getTime();
     }
   },
   methods: {
+    ...mapMutations("saveOrder", {
+      changeFalse: "changeFalse",
+      totalPrice: "totalPrice",
+    }),
     toCart() {
+      this.changeFalse(false);
+      this.totalPrice(0);
       this.$router.push({
         name: "Cart",
-        query: "",
       });
+    },
+    topay() {
+      this.axios
+        .get(`http://localhost:8222/order/alipay/createNotice/` + this.id)
+        .then((res) => {
+          console.log(res);
+          document.querySelector("body").innerHTML = res.data;
+          document.forms[0].submit();
+        });
+      // toPayApi.toPay(this.id).then((response) => {
+      //   console.log(response);
+      //   document.querySelector("body").innerHTML = response.data.data.albody;
+      //   document.forms[0].submit();
+      // });
     },
   },
 };

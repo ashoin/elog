@@ -26,6 +26,11 @@
           <span class="custom-title">{{ item.text }}</span>
         </template>
       </van-cell>
+      <van-cell :value="sql" is-link @click="clearSql">
+        <template #title>
+          <span class="custom-title"> 清除缓存</span>
+        </template>
+      </van-cell>
       <van-cell>
         <!-- 使用 title extar 插槽来自定义标题 -->
         <template #title>
@@ -50,6 +55,7 @@ export default {
   data() {
     return {
       checked: true,
+      sql: "45.64KB",
       settingItems: [
         {
           id: 10011,
@@ -69,13 +75,6 @@ export default {
           src: "",
           to: "",
         },
-        {
-          id: 10014,
-          text: "清除缓存",
-          src: "",
-          value: "45.64KB",
-          to: "",
-        },
       ],
     };
   },
@@ -84,6 +83,9 @@ export default {
       this.$router.push({
         name: "Mine",
       });
+    },
+    clearSql() {
+      this.sql = "00.00kb";
     },
     toLoginHome() {
       this.$router.push({

@@ -36,10 +36,9 @@
         <van-rate v-model="star" />
         <!-- 输入评价 -->
         <textarea
+          class="text"
           style="margin: 0.2rem 0"
-          name=""
-          id=""
-          cols="44"
+          cols="42"
           rows="10"
           placeholder="输入评价"
         />
@@ -69,6 +68,9 @@ export default {
     toMineAllOrder() {
       this.$router.push({
         name: "MineAllOrder",
+        query: {
+          tabIndex: "4",
+        },
       });
     },
   },
@@ -119,6 +121,10 @@ export default {
   }
   .goods-rate {
     padding: 0.2rem 0.6rem;
+  }
+  .text {
+    border: 1px solid #313131;
+    text-indent: 0.1rem;
   }
 }
 </style>

@@ -143,5 +143,9 @@ export default {
       }
     }
   }
+  input {
+    border: 1px solid #1d1d1d;
+    text-indent: 0.1rem;
+  }
 }
 </style>

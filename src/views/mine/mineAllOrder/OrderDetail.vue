@@ -23,7 +23,7 @@
       </div>
       <!-- 地址 -->
       <div class="main-user-address">
-        <div class="info-card">
+        <div class="info-card" @click="toUserAddress">
           <div>
             <span style="margin-left: 0.45rem">张三</span>
             <span style="margin-left: 0.4rem"> 18888888888</span>
@@ -86,11 +86,12 @@
     <div class="detail-foot">
       <div class="foot-price">合计：<span style="color: red">￥290</span></div>
       <van-button>取消订单</van-button>
-      <van-button color="red">立即付款</van-button>
+      <van-button color="red" @click="toOrderPay">立即付款</van-button>
     </div>
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -98,12 +99,30 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("payOrder", {
+      changeNeedPay: "changeNeedPay",
+      changeNeedSend: "changeNeedSend",
+      changeNeedRoute: "changeNeedRoute",
+    }),
+    toOrderPay() {
+      this.changeNeedPay(true);
+      this.changeNeedSend(false);
+      this.$router.push({
+        name: "OrderPay",
+      });
+    },
     toMineAllOrder() {
       this.$router.push({
         name: "MineAllOrder",
         query: {
           tabIndex: "1",
         },
+      });
+    },
+    toUserAddress() {
+      this.changeNeedRoute(2);
+      this.$router.push({
+        name: "UserAddress",
       });
     },
   },

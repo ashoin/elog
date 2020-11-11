@@ -10,7 +10,7 @@
     <!-- 主体部分展示 -->
     <div class="cart-main">
       <!-- 如果购物车是空的情况下展示 -->
-      <div class="cart-empty" v-if="!count">
+      <div class="cart-empty" v-if="!isOrder">
         <van-empty
           class="custom-image"
           image="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/shoppingcart/nullcar%402x.png"
@@ -55,7 +55,7 @@
 <script>
 import WsfFoot from "../components/myModule/WsfFoot";
 import CartGoodsItem from "../components/shoppingcart/CartGoodsItem";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   components: {
     WsfFoot,
@@ -66,16 +66,12 @@ export default {
       change: false,
       nowActive: 3,
       checked: false,
-      count: 2,
     };
   },
 
   created() {
     if (this.$route.query.userMessage != "") {
       this.message = this.$route.query.userMessage;
-    }
-    if (this.goods == "") {
-      this.count = 0;
     }
   },
 
@@ -84,6 +80,10 @@ export default {
       storeEdit: "edit",
       price: "price",
       goods: "goods",
+      count: "count",
+    }),
+    ...mapGetters("saveOrder", {
+      isOrder: "isOrder",
     }),
   },
 
@@ -91,6 +91,7 @@ export default {
     ...mapMutations("saveOrder", {
       changeEdit: "changeEdit",
       saveCourseList: "saveCourseList",
+      changeCount: "changeGoodsCount",
     }),
     // 删除按键方法
     handleDelete() {
@@ -100,24 +101,29 @@ export default {
           message: "木质设计感茶几",
         })
         .then(() => {
-          this.count = 0;
+          this.changeCount(0);
           this.$toast.success("删除成功");
         })
         .catch(() => {
-          this.count = 3;
+          this.$toast.fail("取消删除");
         });
     },
-    // 去结算方法
+    // 去结算方法.
     toCartOrder() {
-      this.saveCourseList(this.$refs.child.courseList);
-      this.$router.push({
-        name: "CartOrder",
-        query: "",
-      });
+      if (
+        this.$refs.child == undefined ||
+        this.$refs.child.selectList.length == 0
+      ) {
+        return null;
+      } else {
+        this.saveCourseList(this.$refs.child.courseList);
+        this.$router.push({
+          name: "CartOrder",
+        });
+      }
     },
     // 全选按键功能
     checkedAllGoods() {
-      console.log(this.storeEdit);
       if (this.checked == true) {
         this.$refs.child.checkedAll = true;
       } else {

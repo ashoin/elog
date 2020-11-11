@@ -88,15 +88,6 @@ export default {
           count: 1,
           checked: false,
         },
-        {
-          id: 10013,
-          len: "400*400*650；黑胡桃木",
-          color: "红木色",
-          goods: "木质设计感茶几吧",
-          price: 290,
-          count: 1,
-          checked: false,
-        },
       ],
     };
   },
@@ -107,6 +98,7 @@ export default {
       goods: "goods",
       message: "message",
     }),
+    // 计算属性方法
     checkedAll: {
       get() {
         return this.courseList.every((course) => course.checked);

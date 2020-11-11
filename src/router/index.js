@@ -31,6 +31,7 @@ import OrderRefund from '../views/mine/mineAllOrder/OrderRefund.vue'
 import OrderEvaluate from '../views/mine/mineAllOrder/OrderEvaluate.vue'
 import OrderEvaluateDetail from '../views/mine/mineAllOrder/OrderEvaluateDetail.vue'
 import OrderComplain from '../views/mine/mineAllOrder/OrderComplain.vue'
+import OrderComplainDetail from '../views/mine/mineAllOrder/OrderComplainDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -158,6 +159,10 @@ const routes = [{
   path: '/mine/order/evaluate/complain',
   name: 'OrderComplain',
   component: OrderComplain
+}, {
+  path: '/mine/order/evaluate/complain/detail',
+  name: 'OrderComplainDetail',
+  component: OrderComplainDetail
 }]
 
 const router = new VueRouter({

@@ -24,8 +24,8 @@
         <!-- 右侧 -->
         <div class="right">
           <van-image
-            width="30"
-            height="30"
+            width="0.5rem"
+            height="0.5rem"
             src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/home/%E5%AF%BC%E8%88%AA%E8%B4%AD%E7%89%A9%E8%BD%A6%402x.png"
           />
         </div>

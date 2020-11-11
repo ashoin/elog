@@ -31,7 +31,7 @@
       </select>
       <!-- 退款说明 -->
       <div class="main-text">退款说明</div>
-      <textarea name="" id="" cols="45" rows="10"></textarea>
+      <textarea class="text" name="" id="" cols="43" rows="10"></textarea>
       <!-- 上传凭证 -->
       <div class="main-text">上传凭证</div>
       <van-uploader :after-read="afterRead" />
@@ -100,6 +100,9 @@ export default {
     .van-button {
       width: 4rem;
     }
+  }
+  .text {
+    border: 1px solid #313131;
   }
 }
 </style>

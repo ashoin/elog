@@ -74,7 +74,7 @@
           <van-button
             round
             style="min-width: 2rem; margin-right: 0.2rem"
-            @click="toOrderRefund"
+            @click="toOrderLogistics"
           >
             查看物流
           </van-button>
@@ -126,14 +126,19 @@ export default {
         query: { tabIndex: "4" },
       });
     },
+    toOrderLogistics() {
+      this.$router.push({
+        name: "OrderLogistics",
+      });
+    },
     toOrderRefund() {
       this.$router.push({
-        name: "OrderRefund",
+        name: "OrderComplain",
       });
     },
     toOrderComplain() {
       this.$router.push({
-        name: "OrderComplain",
+        name: "OrderEvaluate",
       });
     },
   },

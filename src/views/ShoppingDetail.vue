@@ -350,6 +350,7 @@ export default {
   methods: {
     ...mapMutations("saveOrder", {
       changeText: "changeText",
+      changeFalse: "changeFalse",
     }),
     // 去用户评价页面
     toUserEvalute() {
@@ -363,10 +364,10 @@ export default {
     // 点击加入购物功能
     addCart(e) {
       this.isShow = false;
-      console.log(e);
       let addGoods = e.selectedSkuComb;
       addGoods.count = e.selectedNum;
       this.changeText(addGoods);
+      this.changeFalse(true);
       this.$toast.success("添加成功");
     },
     toHome() {
@@ -390,7 +391,7 @@ export default {
   .head-title {
     width: 90%;
     padding: 0 0.4rem;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     height: 0.8rem;

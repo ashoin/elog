@@ -43,4 +43,7 @@ export default {
   border-top: 1px solid silver;
   margin-bottom: 0.2rem;
 }
+.category-bottom {
+  margin-top: 0.2rem;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="all-order-send-container">
     <!-- 没有订单的情况 -->
-    <div class="order-none" v-if="hasOrder">
+    <div class="order-none" v-if="needSend">
       <van-empty
         class="custom-image"
         image="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E8%AE%A2%E5%8D%95/nulldan%402x.png"
@@ -58,11 +58,11 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       show: false,
-      hasOrder: false,
       allOrderList: [
         {
           id: 10011,
@@ -73,13 +73,24 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("payOrder", {
+      needSend: "needSend",
+    }),
+  },
   methods: {
+    ...mapMutations("payOrder", {
+      changeNeedDelivery: "changeNeedDelivery",
+      changeNeedSend: "changeNeedSend",
+    }),
     toOrderSendDetail() {
       this.$router.push({
         name: "OrderSendDetail",
       });
     },
     sendToMerchant() {
+      this.changeNeedSend(true);
+      this.changeNeedDelivery(false);
       this.$toast("提醒已经发送给卖家");
     },
   },

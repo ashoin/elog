@@ -16,7 +16,7 @@
       <div class="main-text">联系电话</div>
       <input type="text" v-model="o" />
       <div class="main-text">投诉理由</div>
-      <textarea name="" id="" cols="45" rows="8"></textarea>
+      <textarea class="text" name="" id="" cols="42" rows="8"></textarea>
       <div class="main-text">上传凭证</div>
       <van-uploader :after-read="afterRead" />
     </div>
@@ -78,7 +78,9 @@ export default {
   }
   input {
     width: 6.5rem;
-    height: 1rem;
+    height: 0.8rem;
+    border: 1px solid #313131;
+    text-indent: 0.1rem;
   }
 }
 .complain-foot {
@@ -92,5 +94,9 @@ export default {
     height: 1rem;
     font-size: 0.38rem;
   }
+}
+.text {
+  border: 1px solid #313131;
+  text-indent: 0.1rem;
 }
 </style>

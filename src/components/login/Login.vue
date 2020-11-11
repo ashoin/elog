@@ -31,9 +31,6 @@ export default {
     LoginInfo,
     Register,
   },
-  data() {
-    return {};
-  },
 };
 </script>
 <style scoped>

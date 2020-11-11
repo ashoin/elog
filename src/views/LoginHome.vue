@@ -26,6 +26,7 @@ export default {
     return {};
   },
   methods: {
+    // 跳转到登录页面
     toLogin() {
       this.$router.push("/login");
     },

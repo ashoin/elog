@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="total-price">
-      <span>共 {{ courseList.length }} 件商品</span>
+      <span>共 {{ payCourse.length }} 件商品</span>
       <div class="price">
         <span>小计:</span>
         <span style="color: red">￥ {{ totalPrice }}</span>
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       message: "",
-      count: 1,
+      count: 0,
       totalPrice: 0,
       payCourse: [],
     };
@@ -66,6 +66,8 @@ export default {
     this.payCourse.forEach((course) => {
       this.totalPrice += (course.price * course.count) / 100;
     });
+    // 总数量
+    this.count = this.payCourse.length;
   },
 };
 </script>

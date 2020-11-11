@@ -15,9 +15,9 @@
       <!-- 顾客地址信息等 -->
       <van-contact-card
         type="edit"
-        name="铁锤妹妹"
+        :name="userName"
         tel="18888888888"
-        :editable="false"
+        @click="changeAddress"
       />
       <!-- 商品订单区 -->
       <order-item ref="child" />
@@ -57,9 +57,7 @@
           <span>合计：</span>
           <span style="color: red">￥{{ totalPrice }}</span>
         </div>
-        <span style="font-size: 0.28rem"
-          >共 {{ courseList.length }} 件商品</span
-        >
+        <span style="font-size: 0.28rem">共 {{ totalCount }} 件商品</span>
       </div>
       <van-button class="foot-btn" type="danger" @click="toPay"
         >提交订单</van-button
@@ -93,6 +91,8 @@ export default {
       coupons: [coupon],
       disabledCoupons: [coupon],
       totalPrice: 0,
+      totalCount: 0,
+      userName: "铁锤妹妹",
     };
   },
 
@@ -101,21 +101,29 @@ export default {
       courseList: "courseList",
     }),
   },
+  created() {
+    if (this.$route.query.name != undefined) {
+      this.userName = this.$route.query.name;
+    }
+  },
 
   mounted() {
     this.totalPrice = this.$refs.child.totalPrice;
+    this.totalCount = this.$refs.child.count;
   },
   methods: {
     ...mapMutations("saveOrder", {
       saveTime: "saveTime",
-      getTotalPrice: "getTotalPrice",
+    }),
+    ...mapMutations("payOrder", {
+      changeNeedPay: "changeNeedPay",
+      changeNeedRoute: "changeNeedRoute",
     }),
 
     // 返回到购物车
     toCart() {
       this.$router.push({
         name: "Cart",
-        query: "",
       });
     },
     onChange(index) {
@@ -129,9 +137,19 @@ export default {
     toPay() {
       let nowtime = new Date().getTime();
       this.saveTime(nowtime);
+      this.changeNeedPay(false);
       this.$router.push({
         name: "OrderPay",
-        query: "",
+      });
+    },
+    // 改变地址方法
+    changeAddress() {
+      this.changeNeedRoute(1);
+      this.$router.push({
+        name: "UserAddress",
+        query: {
+          order: true,
+        },
       });
     },
   },

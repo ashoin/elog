@@ -3,6 +3,7 @@
     <!-- 主体部分 -->
     <div class="login-main">
       <!-- 登录相关的信息 -->
+      <!-- 手机号 -->
       <van-field
         class="input"
         v-model="user.phone"
@@ -16,6 +17,7 @@
         maxlength="11"
         @blur="checkPhone"
       />
+      <!-- 密码 -->
       <van-field
         class="input"
         v-model="user.password"
@@ -69,6 +71,7 @@
 <script>
 import cookie from "js-cookie";
 import loginApi from "../../../api/login";
+import throttleApi from "../../utils/throttle";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -124,6 +127,10 @@ export default {
           });
         }
       });
+    },
+    // 输入防抖
+    check() {
+      throttleApi.throttle(this.checkPhone, 200);
     },
     checkPhone() {
       if (!/^1[34578]\d{9}$/.test(this.user.phone) && this.user.phone != "") {

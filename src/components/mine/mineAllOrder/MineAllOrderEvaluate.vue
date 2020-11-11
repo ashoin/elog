@@ -1,7 +1,7 @@
 <template>
   <div class="all-order-evaluate-container">
     <!-- 没有订单的情况 -->
-    <div class="order-none" v-if="hasOrder">
+    <div class="order-none" v-if="needEvaluate">
       <van-empty
         class="custom-image"
         image="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E8%AE%A2%E5%8D%95/nulldan%402x.png"
@@ -58,6 +58,7 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -73,12 +74,21 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("payOrder", {
+      needEvaluate: "needEvaluate",
+    }),
+  },
   methods: {
+    ...mapMutations("payOrder", {
+      changeNeedEvaluate: "changeNeedEvaluate",
+    }),
     //   去评价
     toOrderEvaluate() {
-      this.$router.push({
-        name: "OrderEvaluate",
-      });
+      this.changeNeedEvaluate(true),
+        this.$router.push({
+          name: "OrderEvaluate",
+        });
     },
     // 去评价详情
     toOrderEvaluateDetail() {

@@ -22,7 +22,7 @@
           <span style="font-size: 0.36rem">
             {{ refund.state }}
           </span>
-          <van-button>查看详情</van-button>
+          <van-button @click="toOrderComplainDetail">查看详情</van-button>
         </div>
       </div>
     </div>
@@ -43,6 +43,13 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    toOrderComplainDetail() {
+      this.$router.push({
+        name: "OrderComplainDetail",
+      });
+    },
   },
 };
 </script>
