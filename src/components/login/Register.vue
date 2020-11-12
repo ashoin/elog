@@ -99,20 +99,25 @@ export default {
         this.register.phone != ""
       ) {
         this.$notify("手机号码格式不正确");
-      } else {
+        this.getCodeLock = false;
+      } else if (this.register.phone != "") {
         this.getCodeLock = true;
       }
     },
     // 获得验证码
     getCode() {
-      console.log("gooooood");
       if (this.getCodeLock == true) {
         this.isGetCode = false;
-        registerApi.getRegisterCode(this.register.phone).then((res) => {
-          this.$toast.success("验证码发送成功");
-        });
+        registerApi
+          .getRegisterCode(this.register.phone)
+          .then((res) => {
+            this.$toast.success("验证码发送成功");
+          })
+          .catch((res) => {
+            this.$toast.fail("验证码发送失败");
+          });
         setTimeout(() => {
-          that.isGetCode = true;
+          this.isGetCode = true;
         }, 60000);
       } else {
         this.$toast("请先输入手机号");

@@ -20,7 +20,8 @@
       <!-- 如果购物车中有商品的情况下展示 -->
       <div class="cart-goods" v-else>
         <!-- 商品展示组件 -->
-        <cart-goods-item @childChange="childCheckAll" ref="child" />
+        <cart-goods-item @childChange="childChecked" ref="child" />
+        <cart-goods-item @childChange="childtwoChecked" ref="childtwo" />
       </div>
     </div>
     <!-- 底部结算区域 -->
@@ -63,35 +64,59 @@ export default {
   },
   data() {
     return {
-      change: false,
       nowActive: 3,
+      firstChild: false,
       checked: false,
+      secondChild: false,
+      price: 0,
     };
   },
-
-  created() {
-    if (this.$route.query.userMessage != "") {
-      this.message = this.$route.query.userMessage;
-    }
-  },
-
   computed: {
     ...mapState("saveOrder", {
       storeEdit: "edit",
-      price: "price",
       goods: "goods",
       count: "count",
+      // price: "price",
     }),
     ...mapGetters("saveOrder", {
       isOrder: "isOrder",
     }),
   },
-
+  created() {
+    if (this.$route.query.userMessage != "") {
+      this.message = this.$route.query.userMessage;
+    }
+  },
+  mounted() {
+    if (this.$refs.child != undefined) {
+      this.changeCount(
+        this.$refs.child.courseList.length +
+          this.$refs.childtwo.courseList.length
+      );
+    }
+  },
+  //判断子组件是否都是选中的状态
+  watch: {
+    firstChild(newName) {
+      if (newName == this.secondChild && newName == true) {
+        this.checked = true;
+      } else {
+        this.checked = false;
+      }
+    },
+    secondChild(newName) {
+      if (newName == this.firstChild && newName == true) {
+        this.checked = true;
+      } else {
+        this.checked = false;
+      }
+    },
+  },
   methods: {
     ...mapMutations("saveOrder", {
       changeEdit: "changeEdit",
       saveCourseList: "saveCourseList",
-      changeCount: "changeGoodsCount",
+      changeCount: "changeCount",
     }),
     // 删除按键方法
     handleDelete() {
@@ -101,7 +126,7 @@ export default {
           message: "木质设计感茶几",
         })
         .then(() => {
-          this.changeCount(0);
+          this.changeCount(null);
           this.$toast.success("删除成功");
         })
         .catch(() => {
@@ -126,17 +151,30 @@ export default {
     checkedAllGoods() {
       if (this.checked == true) {
         this.$refs.child.checkedAll = true;
+        this.$refs.childtwo.checkedAll = true;
       } else {
+        this.$refs.childtwo.checkedAll = false;
         this.$refs.child.checkedAll = false;
       }
     },
-    // 子传父
-    childCheckAll(payload) {
-      this.checked = payload;
+    // 第一子传父
+    childChecked(payload) {
+      console.log(payload);
+      this.firstChild = payload;
+      this.AllPrice();
+    },
+    // 第二子传父
+    childtwoChecked(payload) {
+      this.secondChild = payload;
+      this.AllPrice();
     },
     // 编辑和完成的功能按键
     Edit(bool) {
       this.changeEdit(bool);
+    },
+    // 获得总价格
+    AllPrice() {
+      this.price = this.$refs.child.childPrice + this.$refs.childtwo.childPrice;
     },
   },
 };

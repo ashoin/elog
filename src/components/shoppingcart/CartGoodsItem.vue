@@ -1,6 +1,10 @@
 <template>
   <div class="goods-item-container">
-    <van-checkbox class="goods-item-title" v-model="checkedAll">
+    <van-checkbox
+      class="goods-item-title"
+      v-model="checkedAll"
+      @click="checkedAllGood"
+    >
       家具 Design
     </van-checkbox>
     <!-- 完成的时候出现的 -->
@@ -22,9 +26,9 @@
             <span style="font-size: 0.26rem">{{ course.len }}</span>
             <span>{{ course.color }}</span>
             <div class="goods-price">
-              <span style="font-size: 0.38rem; color: red"
-                >￥{{ course.price / 100 }}{{ selectTotalPrice }}</span
-              >
+              <span style="font-size: 0.38rem; color: red">
+                ￥{{ course.price / 100 }}{{ selectTotalPrice }}
+              </span>
               <span>x {{ course.count }}</span>
             </div>
           </div>
@@ -69,6 +73,7 @@ export default {
   data() {
     return {
       isEdit: false,
+      childPrice: 0,
       courseList: [
         {
           id: 10011,
@@ -106,7 +111,7 @@ export default {
       set(val) {
         this.courseList.forEach((course) => {
           course.checked = val;
-          this.checkedAllGood();
+          this.checkedAllGood;
         });
       },
     },
@@ -118,10 +123,10 @@ export default {
       this.selectList.forEach((course) => {
         price += course.price * course.count;
       });
-      this.totalPrice(price);
+      this.childPrice = price;
     },
   },
-
+  // 创建产品列表
   created() {
     this.courseList.forEach((course) => {
       course.len = this.goods.goodsname;

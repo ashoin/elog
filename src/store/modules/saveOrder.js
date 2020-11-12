@@ -37,6 +37,10 @@ const saveOrder = {
         saveTime(state, value) {
             Vue.set(state, 'time', value)
         },
+        // 改变购物车中数量
+        changeCount(state, value) {
+            state.count = value
+        },
         // 改变商品总数量
         changeGoodsCount(state, value) {
             state.goods.count = value

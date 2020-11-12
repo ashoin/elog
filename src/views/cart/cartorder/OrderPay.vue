@@ -63,7 +63,7 @@ import toPayApi from "../../../../api/toPay";
 export default {
   data() {
     return {
-      countdown: 900000,
+      countdown: 60000,
       radio: "1",
       id: "202009230000165767592",
     };
@@ -99,12 +99,10 @@ export default {
           console.log(res);
           document.querySelector("body").innerHTML = res.data;
           document.forms[0].submit();
+        })
+        .catch((res) => {
+          this.$toast.fail("请求失败");
         });
-      // toPayApi.toPay(this.id).then((response) => {
-      //   console.log(response);
-      //   document.querySelector("body").innerHTML = response.data.data.albody;
-      //   document.forms[0].submit();
-      // });
     },
   },
 };

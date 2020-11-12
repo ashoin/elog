@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Refresh from '../views/Refresh.vue'
 import LoginHome from '../views/LoginHome.vue'
 import Login from '../components/login/Login.vue'
 import ForgetPassword from '../components/login/ForgetPassword.vue'
@@ -33,9 +34,14 @@ import OrderEvaluateDetail from '../views/mine/mineAllOrder/OrderEvaluateDetail.
 import OrderComplain from '../views/mine/mineAllOrder/OrderComplain.vue'
 import OrderComplainDetail from '../views/mine/mineAllOrder/OrderComplainDetail.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [{
+  path: '/refresh',
+  name: 'Refresh',
+  component: Refresh
+}, {
   path: '/',
   name: 'LoginHome',
   component: LoginHome

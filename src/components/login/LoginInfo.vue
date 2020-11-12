@@ -92,41 +92,52 @@ export default {
       this.$router.replace("/home");
     },
     submitLogin() {
-      loginApi.submitLogin(this.user).then((response) => {
-        if (response.data.success) {
-          this.userToken = response.data.data.token;
-          // 将用户token保存到vuex中
-          this.changeLogin({ Authorization: this.userToken });
-          //把token存在cookie中、也可以放在localStorage中
-          cookie.set("huiju_token", response.data.data.token, {
-            domain: "localhost",
-          });
-          //登录成功根据token获取用户信息;
-          //TODO loginApi 为什么请求不到数据
-          // loginApi.getLoginInfo().then((res) => {
-          //   console.log(res);
-          //   this.loginInfo = response.data;
-          // });
-          this.axios
-            .get("http://172.18.1.101:8222/usermanage/user/auth/getLoginInfo", {
-              headers: {
-                token: this.userToken,
-              },
-            })
-            .then((res) => {
-              console.log(res);
-              this.loginInfo = response.data;
-              // 将用户信息记录cookie
-              cookie.set("huiju_ucenter", this.loginInfo, {
+      if (this.user.phone == null) {
+        this.$toast.warning("手机号码或密码不能为空");
+      } else {
+        loginApi
+          .submitLogin(this.user)
+          .then((response) => {
+            if (response.data.success) {
+              this.userToken = response.data.data.token;
+              // 将用户token保存到vuex中
+              this.changeLogin({ Authorization: this.userToken });
+              //把token存在cookie中、也可以放在localStorage中
+              cookie.set("huiju_token", response.data.data.token, {
                 domain: "localhost",
               });
-            });
-          //跳转页面
-          this.$router.push({
-            name: "Home",
+              //登录成功根据token获取用户信息;
+              //TODO loginApi 为什么请求不到数据
+              // loginApi.getLoginInfo().then((res) => {
+              //   console.log(res);
+              //   this.loginInfo = response.data;
+              // });
+              this.axios
+                .get(
+                  "http://172.18.1.101:8222/usermanage/user/auth/getLoginInfo",
+                  {
+                    headers: {
+                      token: this.userToken,
+                    },
+                  }
+                )
+                .then((res) => {
+                  this.loginInfo = response.data;
+                  // 将用户信息记录cookie
+                  cookie.set("huiju_ucenter", this.loginInfo, {
+                    domain: "localhost",
+                  });
+                });
+              //跳转页面
+              this.$router.push({
+                name: "Home",
+              });
+            }
+          })
+          .catch((error) => {
+            this.$toast.fail("手机或者密码错误");
           });
-        }
-      });
+      }
     },
     // 输入防抖
     check() {
