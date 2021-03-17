@@ -30,8 +30,10 @@
                 <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
                 <span>胡桃木色</span>
                 <div class="goods-price">
-                  <span style="font-size: 0.38rem">￥290</span>
-                  <span>x 1</span>
+                  <span style="font-size: 0.38rem">
+                    ￥{{ addOrder.price / 100 }}
+                  </span>
+                  <span>x {{ addOrder.count }}</span>
                 </div>
               </div>
             </div>
@@ -41,7 +43,7 @@
           <span>共 1 件商品</span>
           <div class="price">
             <span>小计:</span>
-            <span>￥ 290</span>
+            <span>￥ {{ totalPrice }}</span>
           </div>
         </div>
         <div class="total-price">
@@ -91,12 +93,19 @@ export default {
           btnText: "确认收货",
         },
       ],
+      totalPrice: 0,
     };
   },
   computed: {
     ...mapState("payOrder", {
       needDelivery: "needDelivery",
     }),
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     ...mapMutations("payOrder", {
@@ -107,8 +116,6 @@ export default {
       this.show = false;
       this.changeNeedDelivery(true);
       this.changeNeedEvaluate(false);
-      // this.allOrderList = null;
-      // this.hasOrder = true;
     },
     toLogistics() {
       this.$router.push({

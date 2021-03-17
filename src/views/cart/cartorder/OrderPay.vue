@@ -12,7 +12,7 @@
     </div>
     <!-- 倒计时 -->
     <div class="pay-time">
-      <van-count-down :time="countdown">
+      <van-count-down :time="countdown" @finish="timeOut">
         <template #default="timeData">
           <span class="block">{{ timeData.minutes }}</span>
           <span class="colon">:</span>
@@ -63,7 +63,7 @@ import toPayApi from "../../../../api/toPay";
 export default {
   data() {
     return {
-      countdown: 60000,
+      countdown: 900000,
       radio: "1",
       id: "202009230000165767592",
     };
@@ -73,9 +73,10 @@ export default {
       time: "time",
     }),
   },
-
+  // 创建一个当前时间
   created() {
     let nowtime = new Date();
+    // 是否有订单生成的时间
     if (this.time !== undefined) {
       this.countdown = this.time + 900000 - nowtime.getTime();
     }
@@ -85,6 +86,10 @@ export default {
       changeFalse: "changeFalse",
       totalPrice: "totalPrice",
     }),
+    ...mapMutations("payOrder", {
+      changeNeedPay: "changeNeedPay",
+    }),
+    // 返回到购物车
     toCart() {
       this.changeFalse(false);
       this.totalPrice(0);
@@ -92,11 +97,19 @@ export default {
         name: "Cart",
       });
     },
+    //倒计时时间到了 触发事件
+    timeOut() {
+      this.changeNeedPay(true);
+      this.changeFalse(false);
+      this.$router.push({
+        name: "Cart",
+      });
+    },
+    // 支付宝支付方法
     topay() {
       this.axios
         .get(`http://localhost:8222/order/alipay/createNotice/` + this.id)
         .then((res) => {
-          console.log(res);
           document.querySelector("body").innerHTML = res.data;
           document.forms[0].submit();
         })

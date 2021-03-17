@@ -49,10 +49,10 @@
           />
         </div>
       </van-checkbox>
-      <van-stepper v-model="course.count" />
+      <van-stepper v-model="course.count" @change="checkedAllGood" />
     </div>
     <!-- 留言展示区 -->
-    <div class="edit-message">
+    <div class="edit-message" @click="toMessage">
       <form action="/">
         <van-search
           readonly
@@ -61,7 +61,7 @@
           left-icon=""
           placeholder="暂未编辑留言"
         >
-          <span slot="action" @click="toMessage">留言</span>
+          <span slot="action">留言</span>
         </van-search>
       </form>
     </div>
@@ -145,9 +145,6 @@ export default {
     toMessage() {
       this.$router.push({
         name: "CartMessage",
-        query: {
-          message: this.message,
-        },
       });
     },
     // 点击选择全部

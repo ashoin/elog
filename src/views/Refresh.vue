@@ -1,7 +1,7 @@
 <template>
   <div class="refresh" v-if="!networkSuccess">
-    <h3>我断网了</h3>
-    <button @click="onRefresh()">点我刷新</button>
+    <h1>我断网了</h1>
+    <van-button type="danger" @click="onRefresh()">点我刷新</van-button>
   </div>
 </template>
 <script>
@@ -21,3 +21,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.refresh {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+</style>

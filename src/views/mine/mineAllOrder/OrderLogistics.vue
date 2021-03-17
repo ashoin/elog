@@ -45,10 +45,9 @@
 <script>
 export default {
   methods: {
+    // 返回到上一页
     toMineAllOrder() {
-      this.$router.push({
-        name: "MineAllOrder",
-      });
+      this.$router.go(-1);
     },
   },
 };

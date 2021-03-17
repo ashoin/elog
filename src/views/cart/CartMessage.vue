@@ -22,7 +22,7 @@
         ></van-image>
         <div class="goods-info">
           <span>木质设计感茶几</span>
-          <span>￥ 290</span>
+          <span>￥ {{ addOrder.price / 100 }}</span>
         </div>
       </div>
       <!-- 留言区 -->
@@ -42,15 +42,20 @@ export default {
   data() {
     return {
       submitMessage: "",
-      randomSessage: this.message,
+      randomSessage: "",
     };
   },
   computed: {
     ...mapState("saveOrder", {
       message: "message",
     }),
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
   },
-
+  created() {
+    this.randomSessage = this.message;
+  },
   methods: {
     ...mapMutations("saveOrder", {
       changeMessages: "changeMessages",
@@ -73,7 +78,7 @@ export default {
           this.$toast.success("修改成功");
         })
         .catch(() => {
-          this.message = "";
+          this.$toast("取消修改");
         });
     },
   },

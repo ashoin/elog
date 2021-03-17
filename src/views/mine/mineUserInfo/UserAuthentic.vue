@@ -20,9 +20,9 @@
         </div>
         <div class="authentic-code">
           <div>身份证号</div>
-          <input type="text" />
+          <input v-model="idCode" type="text" @blur="isTrueCode" />
         </div>
-        <van-button>提交审核</van-button>
+        <van-button @click="toSubmit">提交审核</van-button>
       </div>
       <!-- 审核中 -->
       <div class="authentic-main-audit" v-else-if="isSubmit == 2">
@@ -54,21 +54,44 @@ export default {
   data() {
     return {
       isSubmit: 1,
+      idCode: "",
+      canSubmit: false,
     };
   },
-  created() {
-    this.showAuthentic();
-  },
   methods: {
+    // 返回到个人信息页
     toMineUserInfo() {
       this.$router.push({
         name: "MineUserInfo",
       });
     },
-    showAuthentic() {
-      setInterval(() => {
+    // 模拟定时器
+    toSubmit() {
+      if (this.canSubmit) {
         this.isSubmit++;
+        this.showAuthentic();
+      } else {
+        this.$toast("请输入正确的身份证号码");
+      }
+    },
+    showAuthentic() {
+      setTimeout(() => {
+        this.isSubmit += 1;
       }, 5000);
+    },
+    // 验证身份证号码的格式
+    isTrueCode() {
+      if (
+        this.idCode.length !== 18 &&
+        !/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(
+          this.idCode
+        )
+      ) {
+        this.canSubmit = false;
+        this.$toast.fail("您输入的身份证号码不是有效格式");
+      } else {
+        this.canSubmit = true;
+      }
     },
   },
 };

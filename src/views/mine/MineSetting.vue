@@ -85,12 +85,32 @@ export default {
       });
     },
     clearSql() {
-      this.sql = "00.00kb";
+      this.$dialog
+        .confirm({
+          title: "确定清除缓存",
+        })
+        .then(() => {
+          this.sql = "00.00kb";
+        })
+        .catch(() => {
+          this.$toast("已取消");
+        });
     },
     toLoginHome() {
-      this.$router.push({
-        name: "LoginHome",
-      });
+      this.$dialog
+        .confirm({
+          title: "是否退出",
+        })
+        .then(() => {
+          this.$toast.success("退出成功");
+          localStorage.removeItem("Authorization");
+          this.$router.push({
+            name: "LoginHome",
+          });
+        })
+        .catch(() => {
+          this.$toast("已取消退出");
+        });
     },
   },
 };

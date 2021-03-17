@@ -23,7 +23,6 @@ export default {
 
     // 手机号码验证
     checkPhone(mobile) {
-        console.log(mobile);
         if (!/^1[34578]\d{9}$/.test(mobile) && this.mobile != "") {
             this.$notify("手机号码格式不正确");
         }

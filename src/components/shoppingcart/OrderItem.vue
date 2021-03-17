@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -55,13 +55,20 @@ export default {
     ...mapState("saveOrder", {
       courseList: "courseList",
     }),
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
   },
   created() {
-    this.courseList.forEach((course) => {
-      if (course.checked == true) {
-        this.payCourse.push(course);
-      }
-    });
+    if (this.courseList != undefined) {
+      this.courseList.forEach((course) => {
+        if (course.checked == true) {
+          this.payCourse.push(course);
+        }
+      });
+    } else {
+      this.payCourse.push(this.addOrder);
+    }
     // 总价格
     this.payCourse.forEach((course) => {
       this.totalPrice += (course.price * course.count) / 100;

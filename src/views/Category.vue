@@ -38,18 +38,18 @@ import CategorySpace from "../components/category/CategorySpace";
 import CategoryStyle from "../components/category/CategoryStyle";
 
 export default {
+  data() {
+    return {
+      nowActive: 1,
+      activeKey: 0,
+    };
+  },
   components: {
     WsfFoot,
     WsfHead,
     CategoryClass,
     CategorySpace,
     CategoryStyle,
-  },
-  data() {
-    return {
-      nowActive: 1,
-      activeKey: 0,
-    };
   },
 };
 </script>

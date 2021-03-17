@@ -59,9 +59,9 @@
         </div>
         <span style="font-size: 0.28rem">共 {{ totalCount }} 件商品</span>
       </div>
-      <van-button class="foot-btn" type="danger" @click="toPay"
-        >提交订单</van-button
-      >
+      <van-button class="foot-btn" type="danger" @click="toPay">
+        提交订单
+      </van-button>
     </div>
   </div>
 </template>
@@ -71,11 +71,11 @@ const coupon = {
   available: 1,
   condition: "无使用门槛\n最多优惠12元",
   reason: "",
-  value: 150,
+  value: 150000,
   name: "优惠券名称",
   startAt: 1489104000,
-  endAt: 1514592000,
-  valueDesc: "1.5",
+  endAt: 1914592000,
+  valueDesc: "1500",
   unitDesc: "元",
 };
 import OrderItem from "../../components/shoppingcart/OrderItem";
@@ -88,8 +88,8 @@ export default {
     return {
       showList: false,
       chosenCoupon: -1,
-      coupons: [coupon],
-      disabledCoupons: [coupon],
+      coupons: [coupon, coupon], //优惠券数组
+      disabledCoupons: [coupon], //不可用的券
       totalPrice: 0,
       totalCount: 0,
       userName: "铁锤妹妹",
@@ -97,27 +97,37 @@ export default {
   },
 
   computed: {
+    //订单数据
     ...mapState("saveOrder", {
       courseList: "courseList",
     }),
+    // ...mapState("newOrder", {
+    //   addOrder: "addOrder",
+    // }),
   },
   created() {
+    //判断改变地址的数据
     if (this.$route.query.name != undefined) {
       this.userName = this.$route.query.name;
     }
+    // if (this.courseList == undefined) {
+    //   this.saveCourseList(this.addOrder);
+    // }
   },
 
   mounted() {
+    //在数据挂载完成后拿到总价格和数量
     this.totalPrice = this.$refs.child.totalPrice;
     this.totalCount = this.$refs.child.count;
   },
   methods: {
     ...mapMutations("saveOrder", {
-      saveTime: "saveTime",
+      saveTime: "saveTime", //生成时间
+      saveCourseList: "saveCourseList",
     }),
     ...mapMutations("payOrder", {
-      changeNeedPay: "changeNeedPay",
-      changeNeedRoute: "changeNeedRoute",
+      changeNeedPay: "changeNeedPay", //改变待支付的状态
+      changeNeedRoute: "changeNeedRoute", //改变地址页路由跳转的方向
     }),
 
     // 返回到购物车
@@ -126,10 +136,18 @@ export default {
         name: "Cart",
       });
     },
+    // 点击使用优惠券的方程
     onChange(index) {
       this.showList = false;
       this.chosenCoupon = index;
+      if (index != -1) {
+        this.totalPrice = this.$refs.child.totalPrice;
+        this.totalPrice = this.totalPrice - this.coupons[index].valueDesc;
+      } else {
+        this.totalPrice = this.$refs.child.totalPrice;
+      }
     },
+    // 兑换点击事件
     onExchange(code) {
       this.coupons.push(coupon);
     },
@@ -160,6 +178,7 @@ export default {
   width: 100%;
   height: 100%;
   background: #ededed;
+  // 头部样式
   .order-head {
     width: 100%;
     position: fixed;
@@ -179,6 +198,7 @@ export default {
       flex-grow: 1;
     }
   }
+  // 主体样式
   .order-main {
     padding: 1.22rem 0;
     border-top: 0.2rem solid #ededed;
@@ -195,6 +215,7 @@ export default {
       font-size: 0.32rem;
     }
   }
+  // 底部样式
   .order-foot {
     height: 1.2rem;
     width: 100%;

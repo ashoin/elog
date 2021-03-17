@@ -71,7 +71,6 @@ export default {
   created() {
     if (this.$route.query.edit == true) {
       addressApi.userAddress(this.$route.query.id).then((res) => {
-        console.log(res);
         let user = res.data.data.defaultAddr;
         this.newAddress.street = user.address;
         this.newAddress.name = user.username;

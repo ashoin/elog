@@ -183,7 +183,6 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     let token = localStorage.getItem('Authorization');
-    // console.log(token)
     if (token === null || token === '') {
       alert("登录已经过期，请重新登录")
       next({
@@ -193,6 +192,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
-});
+})
 
 export default router

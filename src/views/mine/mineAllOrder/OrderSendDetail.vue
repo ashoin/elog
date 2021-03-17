@@ -59,22 +59,26 @@
               <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
               <span>胡桃木色</span>
               <div class="goods-price">
-                <span style="font-size: 0.38rem">￥290</span>
-                <span>x 1</span>
+                <span style="font-size: 0.38rem">
+                  ￥{{ addOrder.price / 100 }}
+                </span>
+                <span>x {{ addOrder.count }}</span>
               </div>
             </div>
           </div>
         </div>
         <div style="padding: 0.2rem">留言：无</div>
         <div class="btn">
-          <van-button round style="min-width: 2rem">退款</van-button>
+          <van-button round style="min-width: 2rem" @click="toOrderRefund"
+            >退款</van-button
+          >
         </div>
       </div>
       <!-- 运费 实付款 -->
       <div class="main-freight">
         <van-cell title="运费">快递 免邮</van-cell>
         <van-cell title="实付款">
-          <div slot="default" style="color: red">￥ 290</div>
+          <div slot="default" style="color: red">￥ {{ totalPrice }}</div>
         </van-cell>
       </div>
       <!-- 订单号 创建时间-->
@@ -88,17 +92,27 @@
     </div>
     <!-- 底部付款栏 -->
     <div class="detail-foot">
-      <van-button color="red">提醒发货</van-button>
+      <van-button color="red" @click="remindSend">提醒发货</van-button>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       time: 15 * 60 * 1000,
       active: 1,
+      totalPrice: 0,
     };
+  },
+  computed: {
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     toMineAllOrder() {
@@ -106,6 +120,14 @@ export default {
         name: "MineAllOrder",
         query: { tabIndex: "2" },
       });
+    },
+    toOrderRefund() {
+      this.$router.push({
+        name: "OrderRefund",
+      });
+    },
+    remindSend() {
+      this.$toast.success("已提醒商家发货");
     },
   },
 };

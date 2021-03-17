@@ -38,9 +38,6 @@
 import { mapMutations, mapState } from "vuex";
 import LocationHead from "../components/location/LocationHead";
 export default {
-  components: {
-    LocationHead,
-  },
   data() {
     return {
       allCities: [],
@@ -76,6 +73,9 @@ export default {
     getAddress(e) {
       this.changeCity(e.target.innerText);
     },
+  },
+  components: {
+    LocationHead,
   },
 };
 </script>

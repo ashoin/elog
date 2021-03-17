@@ -17,6 +17,10 @@ const saveOrder = {
         }
     },
     mutations: {
+        // 改变judge
+        changeJudge(state, value) {
+            state.judge = value
+        },
         //改变单价格
         totalPrice(state, value) {
             state.price = value

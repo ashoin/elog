@@ -24,8 +24,10 @@
             <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
             <span>胡桃木色</span>
             <div class="goods-price">
-              <span style="font-size: 0.38rem">￥290</span>
-              <span>x 1</span>
+              <span style="font-size: 0.38rem">
+                ￥{{ addOrder.price / 100 }}
+              </span>
+              <span>x {{ addOrder.count }}</span>
             </div>
           </div>
         </div>
@@ -49,6 +51,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -58,11 +61,17 @@ export default {
           url:
             "https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/shoppingcart/liuyanpic%402x.png",
         },
-        // Uploader 根据文件后缀来判断是否为图片文件
-        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-        // { url: "https://cloud-image", isImage: true },
       ],
+      totalPrice: 0,
     };
+  },
+  computed: {
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     toMineAllOrder() {

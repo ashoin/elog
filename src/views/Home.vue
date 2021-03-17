@@ -71,18 +71,6 @@ import Experience from "../components/home/Experience";
 import WsfFoot from "../components/myModule/WsfFoot";
 import { mapState } from "vuex";
 export default {
-  components: {
-    Banner,
-    Grid,
-    NewGoods,
-    Theme,
-    VideoList,
-    DesignHome,
-    Designer,
-    GoodsCategory,
-    Experience,
-    WsfFoot,
-  },
   data() {
     return {
       nowActive: 0,
@@ -109,6 +97,18 @@ export default {
     toSearch() {
       this.$router.push("/home/search");
     },
+  },
+  components: {
+    Banner,
+    Grid,
+    NewGoods,
+    Theme,
+    VideoList,
+    DesignHome,
+    Designer,
+    GoodsCategory,
+    Experience,
+    WsfFoot,
   },
 };
 </script>

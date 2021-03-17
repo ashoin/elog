@@ -23,7 +23,7 @@
     </div>
     <div class="user-info-main">
       <!-- 昵称 -->
-      <van-cell value="一不小心闪到腰">
+      <van-cell :value="userInfo.username">
         <!-- 使用 title 插槽来自定义标题 -->
         <template #title>
           <span>昵称</span>
@@ -39,7 +39,7 @@
       <!-- 年龄 -->
       <van-cell
         style="margin-bottom: 0.3rem"
-        value="22岁 天平座"
+        :value="age + `岁  天平座`"
         @click="showDate = true"
       >
         <!-- 使用 title 插槽来自定义标题 -->
@@ -65,11 +65,21 @@
       <!-- 头像选择遮罩层 -->
       <van-popup v-model="showAvator">
         <div class="sex-select-container">
-          <div class="sex">性别</div>
+          <div class="sex">头像</div>
           <van-radio-group v-model="radio">
             <van-cell-group>
-              <van-cell title="拍摄"> </van-cell>
-              <van-cell title="选择图片"> </van-cell>
+              <van-cell>
+                <template #title>
+                  <van-button style="width: 35%; border: none">拍摄</van-button>
+                </template>
+              </van-cell>
+              <van-cell>
+                <template #title>
+                  <van-uploader>
+                    <van-button style="border: none">选择图片</van-button>
+                  </van-uploader>
+                </template>
+              </van-cell>
             </van-cell-group>
           </van-radio-group>
           <van-button @click="showAvator = false">确定</van-button>
@@ -109,7 +119,7 @@
           :min-date="minDate"
           :max-date="maxDate"
           :formatter="formatter"
-          @confirm="selectDate($event)"
+          @confirm="selectDate"
           @cancel="showDate = false"
         />
       </van-popup>
@@ -117,6 +127,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -125,11 +136,16 @@ export default {
       showAvator: false,
       radio: null,
       sex: "男",
-      age: "22",
+      age: 22,
       minDate: new Date(1950, 1, 1),
       maxDate: new Date(2020, 11, 30),
       currentDate: new Date(),
     };
+  },
+  computed: {
+    ...mapState("user", {
+      userInfo: "userInfo",
+    }),
   },
   methods: {
     // 返回到mine
@@ -149,7 +165,8 @@ export default {
     },
     // 选择生日
     selectDate(e) {
-      console.log(e);
+      let nowYear = new Date();
+      this.age = nowYear.getFullYear() - e.getFullYear();
       this.showDate = false;
     },
     formatter(type, val) {

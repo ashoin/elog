@@ -45,9 +45,7 @@
 export default {
   methods: {
     toMineAllOrder() {
-      this.$router.push({
-        name: "OrderDeliveryDetail",
-      });
+      this.$router.go(-1);
     },
     afterRead(file) {
       // 此时可以自行将文件上传至服务器

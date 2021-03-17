@@ -129,7 +129,6 @@ export default {
       registerApi
         .submitRegister(this.register)
         .then((res) => {
-          console.log(res);
           if (res.data.code == 20000 && res.data.message == "成功") {
             this.$toast.success("注册成功");
             this.register = { username: "铁锤妹妹" };

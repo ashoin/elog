@@ -15,7 +15,10 @@
     </div>
     <div class="delivery-main">
       <!-- 商品当前位置 -->
-      <div class="main-goods-location">
+      <div
+        class="main-goods-location"
+        @click="$router.push({ name: 'OrderLogistics' })"
+      >
         <van-cell is-link>
           <template #title>
             <div>
@@ -63,8 +66,10 @@
               <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
               <span>胡桃木色</span>
               <div class="goods-price">
-                <span style="font-size: 0.38rem">￥290</span>
-                <span>x 1</span>
+                <span style="font-size: 0.38rem">
+                  ￥ {{ addOrder.price / 100 }}
+                </span>
+                <span>x {{ addOrder.count }}</span>
               </div>
             </div>
           </div>
@@ -80,7 +85,7 @@
       <div class="main-freight">
         <van-cell title="运费">快递 免邮</van-cell>
         <van-cell title="实付款">
-          <div slot="default" style="color: red">￥ 290</div>
+          <div slot="default" style="color: red">￥ {{ totalPrice }}</div>
         </van-cell>
       </div>
       <!-- 订单号 创建时间-->
@@ -95,17 +100,29 @@
     </div>
     <!-- 底部付款栏 -->
     <div class="delivery-foot">
-      <van-button>查看物流</van-button>
-      <van-button color="red">确认发货</van-button>
+      <van-button @click="$router.push({ name: 'OrderLogistics' })">
+        查看物流
+      </van-button>
+      <van-button color="red" @click="confirmReceive">确认收货</van-button>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       active: 2,
+      totalPrice: 0,
     };
+  },
+  computed: {
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     toMineAllOrder() {
@@ -118,6 +135,18 @@ export default {
       this.$router.push({
         name: "OrderRefund",
       });
+    },
+    confirmReceive() {
+      this.$dialog
+        .confirm({
+          title: "确认收货",
+        })
+        .then(() => {
+          this.$toast.success("已确认收货");
+        })
+        .catch(() => {
+          this.$toast("已取消");
+        });
     },
   },
 };

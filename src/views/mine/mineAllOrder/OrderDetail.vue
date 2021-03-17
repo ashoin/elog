@@ -59,8 +59,10 @@
               <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
               <span>胡桃木色</span>
               <div class="goods-price">
-                <span style="font-size: 0.38rem">￥290</span>
-                <span>x 1</span>
+                <span style="font-size: 0.38rem">
+                  ￥{{ addOrder.price / 100 }}
+                </span>
+                <span>x {{ addOrder.count }}</span>
               </div>
             </div>
           </div>
@@ -71,7 +73,7 @@
       <div class="main-freight">
         <van-cell title="运费">快递 免邮</van-cell>
         <van-cell title="实付款">
-          <div slot="default" style="color: red">￥ 290</div>
+          <div slot="default" style="color: red">￥ {{ totalPrice }}</div>
         </van-cell>
       </div>
       <!-- 订单号 创建时间-->
@@ -84,19 +86,30 @@
     </div>
     <!-- 底部付款栏 -->
     <div class="detail-foot">
-      <div class="foot-price">合计：<span style="color: red">￥290</span></div>
+      <div class="foot-price">
+        合计：<span style="color: red">￥{{ totalPrice }}</span>
+      </div>
       <van-button>取消订单</van-button>
       <van-button color="red" @click="toOrderPay">立即付款</van-button>
     </div>
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       time: 15 * 60 * 1000,
+      totalPrice: 0,
     };
+  },
+  computed: {
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     ...mapMutations("payOrder", {
@@ -107,9 +120,10 @@ export default {
     toOrderPay() {
       this.changeNeedPay(true);
       this.changeNeedSend(false);
-      this.$router.push({
-        name: "OrderPay",
-      });
+      // this.$router.push({
+      //   name: "OrderPay",
+      // });
+      this.$toast.success("支付成功");
     },
     toMineAllOrder() {
       this.$router.push({

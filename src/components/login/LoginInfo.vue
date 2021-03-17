@@ -25,6 +25,7 @@
         clearable
         type="password"
         left-icon="closed-eye"
+        maxlength="16"
         placeholder="请输入密码"
       >
       </van-field>
@@ -48,7 +49,7 @@
       <van-row>
         <van-divider> 其它方式登录 </van-divider>
       </van-row>
-      <div class="images">
+      <div class="images" @click="otherLogin">
         <van-image
           width="1rem"
           height="1rem"
@@ -80,17 +81,18 @@ export default {
         password: "",
         phone: null,
       },
-      loginInfo: null,
     };
   },
   methods: {
     ...mapMutations("token", { changeLogin: "changeLogin" }),
+    ...mapMutations("user", { changeUserInfo: "changeUserInfo" }),
     toForgetPassword() {
       this.$router.push("/forgetpassword");
     },
     toHome() {
       this.$router.replace("/home");
     },
+    // 登录的方法
     submitLogin() {
       if (this.user.phone == null) {
         this.$toast.warning("手机号码或密码不能为空");
@@ -106,12 +108,6 @@ export default {
               cookie.set("huiju_token", response.data.data.token, {
                 domain: "localhost",
               });
-              //登录成功根据token获取用户信息;
-              //TODO loginApi 为什么请求不到数据
-              // loginApi.getLoginInfo().then((res) => {
-              //   console.log(res);
-              //   this.loginInfo = response.data;
-              // });
               this.axios
                 .get(
                   "http://172.18.1.101:8222/usermanage/user/auth/getLoginInfo",
@@ -122,7 +118,7 @@ export default {
                   }
                 )
                 .then((res) => {
-                  this.loginInfo = response.data;
+                  this.changeUserInfo(res.data);
                   // 将用户信息记录cookie
                   cookie.set("huiju_ucenter", this.loginInfo, {
                     domain: "localhost",
@@ -132,10 +128,12 @@ export default {
               this.$router.push({
                 name: "Home",
               });
+            } else {
+              this.$toast.fail("手机或者密码错误");
             }
           })
-          .catch((error) => {
-            this.$toast.fail("手机或者密码错误");
+          .catch((err) => {
+            this.$toast.fail("网络连接失败");
           });
       }
     },
@@ -147,6 +145,10 @@ export default {
       if (!/^1[34578]\d{9}$/.test(this.user.phone) && this.user.phone != "") {
         this.$notify("手机号码格式不正确");
       }
+    },
+    // 第三登录事件
+    otherLogin() {
+      this.$toast.success("正在通过第三方登录...");
     },
   },
 };

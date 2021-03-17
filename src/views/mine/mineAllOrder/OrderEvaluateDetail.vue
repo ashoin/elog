@@ -63,8 +63,10 @@
               <span style="font-size: 0.26rem">400*400*560；黑胡桃木</span>
               <span>胡桃木色</span>
               <div class="goods-price">
-                <span style="font-size: 0.38rem">￥290</span>
-                <span>x 1</span>
+                <span style="font-size: 0.38rem">
+                  ￥{{ addOrder.price / 100 }}
+                </span>
+                <span>x {{ addOrder.count }}</span>
               </div>
             </div>
           </div>
@@ -87,7 +89,7 @@
       <div class="main-freight">
         <van-cell title="运费">快递 免邮</van-cell>
         <van-cell title="实付款">
-          <div slot="default" style="color: red">￥ 290</div>
+          <div slot="default" style="color: red">￥ {{ totalPrice }}</div>
         </van-cell>
       </div>
       <!-- 投诉商家 -->
@@ -113,11 +115,21 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       active: 3,
+      totalPrice: 0,
     };
+  },
+  computed: {
+    ...mapState("newOrder", {
+      addOrder: "addOrder",
+    }),
+  },
+  created() {
+    this.totalPrice = (this.addOrder.count * this.addOrder.price) / 100;
   },
   methods: {
     toMineAllOrder() {

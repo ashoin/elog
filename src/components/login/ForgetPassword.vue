@@ -2,10 +2,11 @@
   <div class="forget-password-container">
     <!-- 头部导航信息nav -->
     <div class="forget-password-head">
-      <van-nav-bar @click-left="onClickLeft">
-        <van-icon name="arrow-left" slot="left" />
-        <h3 slot="title">忘记密码</h3>
-      </van-nav-bar>
+      <van-image
+        src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/seckill/back%402x.png"
+        @click="$router.go(-1)"
+      />
+      <h3 class="head-title">忘记密码</h3>
     </div>
     <!-- 主体部分内容 v-if -->
     <div class="forget-password-main">
@@ -93,7 +94,6 @@ export default {
         this.next = "下一步";
         this.count = 0;
         this.isShow = true;
-        console.log("goooooooooooood");
       }
     },
   },
@@ -110,9 +110,20 @@ export default {
   margin: 0.4rem 0;
   border: 1px solid silver;
 }
-
+.forget-password-head {
+  display: flex;
+  align-items: center;
+  margin: 0 0.2rem;
+}
 .forget-password-main {
   width: 80%;
   margin: 0.4rem auto;
+}
+.van-image {
+  width: 0.3rem;
+  height: 0.5rem;
+}
+.head-title {
+  flex-grow: 1;
 }
 </style>

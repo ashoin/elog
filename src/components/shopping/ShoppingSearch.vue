@@ -89,7 +89,16 @@ export default {
     },
     // 点击清除历史功能
     clearSearch() {
-      this.searchHistory = [];
+      this.$dialog
+        .confirm({
+          title: "确认删除搜索记录吗？",
+        })
+        .then(() => {
+          this.searchHistory = [];
+        })
+        .catch(() => {
+          return null;
+        });
     },
   },
 };

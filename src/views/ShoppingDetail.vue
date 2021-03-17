@@ -79,8 +79,14 @@
       :sku="sku"
       :goods="goods"
       :goods-id="sku.goodsId"
+      ref="getSkuData"
       @add-cart="addCart"
+      @buy-clicked="onBuyClicked"
     />
+    <!-- <template #sku-actions>
+        <van-button type="danger" @click="addCart"> 确定</van-button>
+      </template>
+    </van-sku> -->
   </div>
 </template>
 <script>
@@ -91,12 +97,6 @@ import WsfUserEvalute from "../components/myModule/WsfUserEvaluta";
 
 import { mapMutations } from "vuex";
 export default {
-  components: {
-    ShoppingDetailHead,
-    ShoppingMainDetail,
-    ShoppingMainParams,
-    WsfUserEvalute,
-  },
   data() {
     return {
       isSave: false,
@@ -352,6 +352,10 @@ export default {
       changeText: "changeText",
       changeFalse: "changeFalse",
     }),
+    ...mapMutations("newOrder", {
+      changeOrderPrice: "changeOrderPrice",
+      changeOrderCount: "changeOrderCount",
+    }),
     // 去用户评价页面
     toUserEvalute() {
       this.$router.push({
@@ -368,7 +372,20 @@ export default {
       addGoods.count = e.selectedNum;
       this.changeText(addGoods);
       this.changeFalse(true);
+      this.changeOrderPrice(e.selectedSkuComb.price);
+      this.changeOrderCount(e.selectedNum);
       this.$toast.success("添加成功");
+    },
+    // 点击立即购买功能
+    onBuyClicked(e) {
+      this.isShow = false;
+      this.changeOrderPrice(e.selectedSkuComb.price);
+      this.changeOrderCount(e.selectedNum);
+      this.changeFalse(true);
+      this.$router.push({
+        name: "CartOrder",
+        query: "",
+      });
     },
     toHome() {
       this.$router.push("/home");
@@ -379,6 +396,12 @@ export default {
       });
     },
   },
+  components: {
+    ShoppingDetailHead,
+    ShoppingMainDetail,
+    ShoppingMainParams,
+    WsfUserEvalute,
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -387,9 +410,9 @@ export default {
   background-color: #ededed;
 }
 .detail-head {
-  width: 100%;
+  // width: 100%;
   .head-title {
-    width: 90%;
+    width: 88%;
     padding: 0 0.4rem;
     position: absolute;
     top: 0;

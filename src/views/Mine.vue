@@ -16,17 +16,17 @@
         />
       </div>
       <!-- 头部头像 -->
-      <div class="mine-head-avator">
+      <div class="mine-head-avator" @click="toUserInfo">
         <van-image
           width="2rem"
           height="2rem"
           src="https://tiechuimeimeia.oss-cn-hangzhou.aliyuncs.com/mine/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/mypic%402x.png"
         />
-        <p @click="toUserInfo">一不小心闪到腰</p>
+        <p>{{ userInfo.username }}</p>
       </div>
       <!-- 签到栏 -->
       <div class="mine-head-sign">
-        <div @click="changeSign">
+        <div @click="isChangeSign">
           <van-image
             width="0.4rem"
             height="0.4rem"
@@ -130,9 +130,6 @@
 import { mapMutations, mapState } from "vuex";
 import WsfFoot from "../components/myModule/WsfFoot";
 export default {
-  components: {
-    WsfFoot,
-  },
   data() {
     return {
       sign: "签到",
@@ -211,11 +208,18 @@ export default {
     ...mapState("token", {
       signIn: "signIn",
     }),
+    ...mapState("user", {
+      userInfo: "userInfo",
+    }),
   },
   methods: {
     ...mapMutations("token", {
       changeSign: "changeSign",
     }),
+    isChangeSign() {
+      this.$toast.success("已签到成功");
+      this.changeSign();
+    },
     // 去设置
     toSetting() {
       this.$router.push({
@@ -240,6 +244,9 @@ export default {
         name: "MineRefund",
       });
     },
+  },
+  components: {
+    WsfFoot,
   },
 };
 </script>

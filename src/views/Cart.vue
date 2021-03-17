@@ -58,17 +58,14 @@ import WsfFoot from "../components/myModule/WsfFoot";
 import CartGoodsItem from "../components/shoppingcart/CartGoodsItem";
 import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
-  components: {
-    WsfFoot,
-    CartGoodsItem,
-  },
   data() {
     return {
       nowActive: 3,
-      firstChild: false,
+      firstChild: false, //第一个子组件
       checked: false,
-      secondChild: false,
+      secondChild: false, //第二个子组件
       price: 0,
+      order: true,
     };
   },
   computed: {
@@ -76,18 +73,19 @@ export default {
       storeEdit: "edit",
       goods: "goods",
       count: "count",
-      // price: "price",
     }),
     ...mapGetters("saveOrder", {
       isOrder: "isOrder",
     }),
   },
   created() {
+    // 初期添加留言
     if (this.$route.query.userMessage != "") {
       this.message = this.$route.query.userMessage;
     }
   },
   mounted() {
+    // 挂在后计算所有的商品的数量
     if (this.$refs.child != undefined) {
       this.changeCount(
         this.$refs.child.courseList.length +
@@ -117,21 +115,32 @@ export default {
       changeEdit: "changeEdit",
       saveCourseList: "saveCourseList",
       changeCount: "changeCount",
+      changeJudge: "changeJudge",
     }),
     // 删除按键方法
     handleDelete() {
-      this.$dialog
-        .confirm({
-          title: "确认删除",
-          message: "木质设计感茶几",
-        })
-        .then(() => {
-          this.changeCount(null);
-          this.$toast.success("删除成功");
-        })
-        .catch(() => {
-          this.$toast.fail("取消删除");
-        });
+      if (
+        this.$refs.child == undefined ||
+        this.$refs.child.selectList.length == 0
+      ) {
+        return null;
+      } else {
+        this.$dialog
+          .confirm({
+            title: "确认删除",
+            message: "木质设计感茶几",
+          })
+          .then(() => {
+            this.changeCount(null);
+            this.changeJudge(false);
+            this.$toast.success("删除成功");
+          })
+          .catch(() => {
+            this.$toast.fail("取消删除");
+          });
+        this.price = 0;
+        this.checked = false;
+      }
     },
     // 去结算方法.
     toCartOrder() {
@@ -145,21 +154,25 @@ export default {
         this.$router.push({
           name: "CartOrder",
         });
+        this.changeCount(null);
       }
     },
     // 全选按键功能
     checkedAllGoods() {
-      if (this.checked == true) {
+      if (this.isOrder == false) {
+        return null;
+      } else if (this.checked == true) {
         this.$refs.child.checkedAll = true;
         this.$refs.childtwo.checkedAll = true;
+        this.AllcheckPrice();
       } else {
         this.$refs.childtwo.checkedAll = false;
         this.$refs.child.checkedAll = false;
+        this.price = 0;
       }
     },
     // 第一子传父
     childChecked(payload) {
-      console.log(payload);
       this.firstChild = payload;
       this.AllPrice();
     },
@@ -176,6 +189,24 @@ export default {
     AllPrice() {
       this.price = this.$refs.child.childPrice + this.$refs.childtwo.childPrice;
     },
+    // 点击全选获得总价格
+    AllcheckPrice() {
+      let oneP = 0,
+        twoP = 0;
+      let courseListone = this.$refs.child.courseList;
+      let courseListtwo = this.$refs.childtwo.courseList;
+      courseListone.forEach((course) => {
+        oneP += course.price * course.count;
+      });
+      courseListtwo.forEach((course) => {
+        twoP += course.price * course.count;
+      });
+      this.price = oneP + twoP;
+    },
+  },
+  components: {
+    WsfFoot,
+    CartGoodsItem,
   },
 };
 </script>
